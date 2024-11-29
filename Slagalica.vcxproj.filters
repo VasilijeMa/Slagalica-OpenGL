@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Shader Files">
+      <UniqueIdentifier>{b1af2ad8-0dc1-40d4-b8c6-90e7ae12c687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\letters">
+      <UniqueIdentifier>{5fedae50-54ba-42fd-bafa-6331fd37bc63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\box">
+      <UniqueIdentifier>{883f6aa7-267a-4d16-bdd8-e3fdb6164f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\buttons">
+      <UniqueIdentifier>{e1f02df7-3ab6-47c8-a8b8-291aacf04232}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LettersGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LettersGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="col.vert">
+      <Filter>Source Files\Shader Files</Filter>
+    </None>
+    <None Include="col.frag">
+      <Filter>Source Files\Shader Files</Filter>
+    </None>
+    <None Include="packages.config" />
+    <None Include="tex.vert">
+      <Filter>Source Files\Shader Files</Filter>
+    </None>
+    <None Include="tex.frag">
+      <Filter>Source Files\Shader Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\letters\letter8.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter1.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter2.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter3.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter4.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter5.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter6.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter7.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter9.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter10.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\field.png">
+      <Filter>Resource Files\box</Filter>
+    </Image>
+    <Image Include="res\box\border.png">
+      <Filter>Resource Files\box</Filter>
+    </Image>
+    <Image Include="res\box\row.png">
+      <Filter>Resource Files\box</Filter>
+    </Image>
+    <Image Include="res\letters\letter11.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter12.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter13.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter14.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter15.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter16.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter17.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter18.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter19.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter20.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter21.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter22.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter23.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter24.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter25.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter26.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter27.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter28.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter29.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\letters\letter30.png">
+      <Filter>Resource Files\letters</Filter>
+    </Image>
+    <Image Include="res\buttons\backspace.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\clear.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\stop.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
