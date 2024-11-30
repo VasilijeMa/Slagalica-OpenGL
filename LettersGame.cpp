@@ -523,60 +523,6 @@ void playLettersGame(int roundTime) {
         });
     loadDictTask.detach();
 
-    for (int i = 0; i < 12; i++) {
-        formCell(i * 4,
-            int(screenWidth / 2.0 - screenWidth / 15 * (6 - i)),
-            screenHeight / 2,
-            screenWidth / 15);
-    }
-
-    formBar(48,
-        screenHeight / 2 + screenWidth / 15,
-        screenWidth / 15);
-    formBar(60,
-        screenHeight / 2 + screenWidth / 15 * 2,
-        screenWidth / 15);
-
-    formCell(72,
-        int(screenWidth / 2.0 - screenWidth / 15 * 7),
-        screenHeight / 2 + screenWidth / 15,
-        screenWidth / 15);
-    formCell(76,
-        int(screenWidth / 2.0 + screenWidth / 15 * 6),
-        screenHeight / 2 + screenWidth / 15,
-        screenWidth / 15);
-
-    for (int i = 0; i < 12; i++) {
-        formCell(80 + i * 4,
-            int((screenWidth - screenWidth / 15) / 2.0),
-            screenHeight / 2 + screenWidth / 15,
-            screenWidth / 15);
-    }
-
-    formCell(128,
-        int(screenWidth / 2.0) - screenWidth / 15,
-        screenHeight / 2 + screenWidth / 15,
-        2 * screenWidth / 15);
-    formTimer(132);
-
-    for (int i = 0; i < 12; i++) {
-        formCell(148 + i * 4,
-            int((screenWidth - screenWidth / 15) / 2.0),
-            screenHeight / 2 + screenWidth / 15 * 2,
-            screenWidth / 15);
-    }
-
-    formCell(196,
-        int(screenWidth / 2.0 - screenWidth / 15 * 1.5),
-        screenHeight / 2 + screenWidth / 15 * 2,
-        3 * screenWidth / 15);
-    formCell(200,
-        int((screenWidth - screenWidth / 15) / 2.0),
-        screenHeight / 2 + screenWidth / 15 * 2,
-        screenWidth / 15);
-
-    formLogo(204);
-
     unsigned letters[30];
     for (int i = 0; i < 30; i++) {
         letters[i] = loadTexture("letters", ("letter" + std::to_string(i + 1)).c_str());
@@ -604,21 +550,25 @@ void playLettersGame(int roundTime) {
         glActiveTexture(GL_TEXTURE0);
 
         glBindTexture(GL_TEXTURE_2D, logo);
-        glDrawArrays(GL_TRIANGLE_FAN, 204, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+        glBindTexture(GL_TEXTURE_2D, borderTimer);
+        glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 8, 4);
+        glBindTexture(GL_TEXTURE_2D, rowTimer);
+        glDrawArrays(GL_TRIANGLE_FAN, 12, 4);
 
         glBindTexture(GL_TEXTURE_2D, border);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12 + 4, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12 + 12, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12 + 16, 4);
-
+        glDrawArrays(GL_TRIANGLE_FAN, 20, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 24, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 32, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 36, 4);
         glBindTexture(GL_TEXTURE_2D, row);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12 + 8, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 4 * 12 + 20, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 28, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 40, 4);
 
         glBindTexture(GL_TEXTURE_2D, field);
         glActiveTexture(GL_TEXTURE1);
-
 
         for (int i = 0; i < generatedLetterCounter; i++) {
             glBindTexture(GL_TEXTURE_2D, letters[generatedLetters[i]]);
@@ -630,9 +580,9 @@ void playLettersGame(int roundTime) {
                         break;
                     }
                 }
-            if (!found) glDrawArrays(GL_TRIANGLE_FAN, 4 * i, 4);
+            if (!found) glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * i, 4);
             else {
-                drawWithLens(i * 4, lens);
+                drawWithLens(76 + i * 4, lens);
                 glActiveTexture(GL_TEXTURE1);
             }
         }
@@ -641,14 +591,14 @@ void playLettersGame(int roundTime) {
 
             random = dis(gen);
             glBindTexture(GL_TEXTURE_2D, letters[probabilities[random]]);
-            glDrawArrays(GL_TRIANGLE_FAN, 4 * generatedLetterCounter, 4);
+            glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * generatedLetterCounter, 4);
             glBindTexture(GL_TEXTURE_2D, 0);
             glActiveTexture(GL_TEXTURE0);
 
             glBindTexture(GL_TEXTURE_2D, stop);
-            if (!stopPressed) glDrawArrays(GL_TRIANGLE_FAN, 128, 4);
+            if (!stopPressed) glDrawArrays(GL_TRIANGLE_FAN, 56, 4);
             else {
-                drawWithLens(128, stopLens);
+                drawWithLens(56, stopLens);
                 glActiveTexture(GL_TEXTURE0);
             }
         }
@@ -667,27 +617,20 @@ void playLettersGame(int roundTime) {
             glActiveTexture(GL_TEXTURE0);
         }
 
-        glBindTexture(GL_TEXTURE_2D, borderTimer);
-        glDrawArrays(GL_TRIANGLE_FAN, 132, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 136, 4);
-        glBindTexture(GL_TEXTURE_2D, rowTimer);
-        glDrawArrays(GL_TRIANGLE_FAN, 140, 4);
-
-
         if (chosenLetterCounter > 0) {
 
             if (!gameEnded) {
                 glBindTexture(GL_TEXTURE_2D, clear);
-                if (!clearPressed) glDrawArrays(GL_TRIANGLE_FAN, 72, 4);
+                if (!clearPressed) glDrawArrays(GL_TRIANGLE_FAN, 60, 4);
                 else {
-                    drawWithLens(72, lens);
+                    drawWithLens(60, lens);
                     glActiveTexture(GL_TEXTURE0);
                 }
 
                 glBindTexture(GL_TEXTURE_2D, backspace);
-                if (!backspacePressed) glDrawArrays(GL_TRIANGLE_FAN, 76, 4);
+                if (!backspacePressed) glDrawArrays(GL_TRIANGLE_FAN, 64, 4);
                 else {
-                    drawWithLens(76, lens);
+                    drawWithLens(64, lens);
                     glActiveTexture(GL_TEXTURE0);
                 }
 
@@ -695,16 +638,16 @@ void playLettersGame(int roundTime) {
                     if (!isCurrentWordInvalid) {
                         {
                             glBindTexture(GL_TEXTURE_2D, submit);
-                            if (!submitPressed) glDrawArrays(GL_TRIANGLE_FAN, 196, 4);
+                            if (!submitPressed) glDrawArrays(GL_TRIANGLE_FAN, 68, 4);
                             else {
-                                drawWithLens(196, submitLens);
+                                drawWithLens(68, submitLens);
                                 glActiveTexture(GL_TEXTURE0);
                             }
                         }
                     }
                     else {
                         glBindTexture(GL_TEXTURE_2D, error);
-                        glDrawArrays(GL_TRIANGLE_FAN, 200, 4);
+                        glDrawArrays(GL_TRIANGLE_FAN, 72, 4);
                     }
                 }
             }
@@ -728,7 +671,7 @@ void playLettersGame(int roundTime) {
                 glBindTexture(GL_TEXTURE_2D, letters[letter]);
                 glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(xMiddle));
                 glUniform1f(glGetUniformLocation(texShader, "kX"), widths[letter]);
-                glDrawArrays(GL_TRIANGLE_FAN, 80 + i * 4, 4);
+                glDrawArrays(GL_TRIANGLE_FAN, 124 + i * 4, 4);
             }
         }
 
@@ -744,7 +687,7 @@ void playLettersGame(int roundTime) {
             glUniform1f(glGetUniformLocation(colShader, "red"), red);
             glUniform1f(glGetUniformLocation(colShader, "kY"), kY);
             glUniform1f(glGetUniformLocation(colShader, "minY"), convertY(int(screenHeight / 2.0 - 3 * PADDING)));
-            glDrawArrays(GL_TRIANGLE_FAN, 144, 4);
+            glDrawArrays(GL_TRIANGLE_FAN, 16, 4);
         }
         else {
             if (endTime == 0.0f) endTime = glfwGetTime();
@@ -769,7 +712,7 @@ void playLettersGame(int roundTime) {
                     glBindTexture(GL_TEXTURE_2D, letters[letter]);
                     glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(xMiddle));
                     glUniform1f(glGetUniformLocation(texShader, "kX"), widths[letter]);
-                    glDrawArrays(GL_TRIANGLE_FAN, 148 + i * 4, 4);
+                    glDrawArrays(GL_TRIANGLE_FAN, 216 + i * 4, 4);
                 }
             }
         }
@@ -779,21 +722,5 @@ void playLettersGame(int roundTime) {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-    }
-}
-
-void playDemo() {
-    while (!glfwWindowShouldClose(window)) {
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, GL_TRUE);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(texShader);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, field);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glUseProgram(0);
-
-        glfwPollEvents();
-        glfwSwapBuffers(window);
     }
 }

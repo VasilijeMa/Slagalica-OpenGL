@@ -4,10 +4,9 @@
 
 int screenHeight;
 int screenWidth;
-                     //  15        V       V      V   V    23     V      V       23     V   V    V
-                     // slova    red 1   red 2   bs  clr typing  stop  timer  solution sbm err logo 
-const int vertexCount = 12 * 4 + 3 * 4 + 3 * 4 + 4 + 4 + 12 * 4 + 4 + 4 * 4 + 12 * 4 + 4 + 4 + 4;
-float* vertices;
+
+const int vertexCount = 308;
+float* vertices = new float[vertexCount * 4] { };
 
 unsigned int colShader;
 unsigned int texShader;

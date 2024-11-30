@@ -22,13 +22,13 @@ int main(void)
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-    /*screenWidth = mode->width;
+    screenWidth = mode->width;
     screenHeight = mode->height;
-    window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", monitor, NULL);*/
+    window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", monitor, NULL);
 
-    screenWidth = 800;
+    /*screenWidth = 800;
     screenHeight = 600;
-    window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", NULL, NULL);
+    window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", NULL, NULL);*/
 
     if (window == NULL)
     {
@@ -44,12 +44,83 @@ int main(void)
         return 3;
     }
 
-    vertices = nullptr;
-    vertices = new float[vertexCount * 4] {
-        0.2, 0, 0, 0,
-        0.4, 0, 1, 0,
-        0.3, 0.5, 0.5, 1
-        };
+    formLogo(0); // logo
+
+    formTimer(4); //timer
+
+    formBar(20, // row 1
+        screenHeight / 2 + screenWidth / 15,
+        screenWidth / 15);
+
+    formBar(32, // row 2
+        screenHeight / 2 + screenWidth / 15 * 2,
+        screenWidth / 15);
+
+    formCell(44, // background TODO
+        0,
+        0,
+        0
+    );
+    formCell(48, // pic1 TODO
+        0,
+        0,
+        0
+    );
+    formCell(52, // pic2 TODO
+        0,
+        0,
+        0
+    );
+
+    formCell(56, // stop
+        int(screenWidth / 2.0) - screenWidth / 15,
+        screenHeight / 2 + screenWidth / 15,
+        2 * screenWidth / 15);
+
+    formCell(60, // clear
+        int(screenWidth / 2.0 - screenWidth / 15 * 7),
+        screenHeight / 2 + screenWidth / 15,
+        screenWidth / 15);
+
+    formCell(64, // backspace
+        int(screenWidth / 2.0 + screenWidth / 15 * 6),
+        screenHeight / 2 + screenWidth / 15,
+        screenWidth / 15);
+
+    formCell(68, // submit
+        int(screenWidth / 2.0 - screenWidth / 15 * 1.5),
+        screenHeight / 2 + screenWidth / 15 * 2,
+        3 * screenWidth / 15);
+
+    formCell(72, // error
+        int((screenWidth - screenWidth / 15) / 2.0),
+        screenHeight / 2 + screenWidth / 15 * 2,
+        screenWidth / 15);
+
+
+    for (int i = 0; i < 12; i++) { // letters + prva 4 broja
+        formCell(76 + i * 4,
+            int(screenWidth / 2.0 - screenWidth / 15 * (6 - i)),
+            screenHeight / 2,
+            screenWidth / 15);
+    }
+
+    for (int i = 0; i < 23; i++) { // typing
+        formCell(124 + i * 4,
+            int((screenWidth - screenWidth / 15) / 2.0),
+            screenHeight / 2 + screenWidth / 15,
+            screenWidth / 15);
+    }
+
+    for (int i = 0; i < 23; i++) { // solution
+        formCell(216 + i * 4,
+            int((screenWidth - screenWidth / 15) / 2.0),
+            screenHeight / 2 + screenWidth / 15 * 2,
+            screenWidth / 15);
+    }
+
+    // TODO: 3 cifre, 2 velika broja, 6 operatora = 11 * 4 cvorova
+    // TODO: 4 score baferi, 2 cifre score * 2 = 8 * 4 cvorova
 
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -104,7 +175,6 @@ int main(void)
 
 
     glBindVertexArray(VAO);
-    // playDemo();
     playLettersGame(roundTime);
     glBindVertexArray(0);
     //TODO play numbers game
