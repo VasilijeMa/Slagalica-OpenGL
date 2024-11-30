@@ -18,18 +18,18 @@ unsigned loadTexture(std::string folderName, std::string fileName, bool filterLi
     }
     return texture;
 }
-unsigned int compileShader(GLenum type, const char* source) {
+unsigned int compileShader(GLenum type, std::string fileName) {
     std::string content = "";
-    std::ifstream file(source);
+    std::ifstream file(("shaders/"+ fileName).c_str());
     std::stringstream ss;
     if (file.is_open()) {
         ss << file.rdbuf();
         file.close();
-        std::cout << "Uspesno procitao fajl sa putanje \"" << source << "\"!" << std::endl;
+        std::cout << "Uspesno procitao fajl sa putanje \"shaders/" << fileName << "\"!" << std::endl;
     }
     else {
         ss << "";
-        std::cout << "Greska pri citanju fajla sa putanje \"" << source << "\"!" << std::endl;
+        std::cout << "Greska pri citanju fajla sa putanje \"shaders/" << fileName << "\"!" << std::endl;
     }
     std::string temp = ss.str();
     const char* sourceCode = temp.c_str();
@@ -54,7 +54,7 @@ unsigned int compileShader(GLenum type, const char* source) {
     return shader;
 }
 
-unsigned int createShader(const char* vsSource, const char* fsSource) {
+unsigned int createShader(std::string vsSource, std::string fsSource) {
     unsigned int program;
     unsigned int vertexShader;
     unsigned int fragmentShader;

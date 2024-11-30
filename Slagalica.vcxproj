@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,23 +129,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LettersGame.cpp" />
-    <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="View.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="LettersGame.h" />
-    <ClInclude Include="FileManager.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="View.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="col.frag" />
-    <None Include="col.vert" />
     <None Include="packages.config" />
-    <None Include="tex.frag" />
-    <None Include="tex.vert" />
+    <None Include="shaders\col.frag" />
+    <None Include="shaders\col.vert" />
+    <None Include="shaders\tex.frag" />
+    <None Include="shaders\tex.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\box\border.png" />
@@ -183,6 +172,18 @@
     <Image Include="res\letters\letter7.png" />
     <Image Include="res\letters\letter8.png" />
     <Image Include="res\letters\letter9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\FileManager.h" />
+    <ClInclude Include="headers\LettersGame.h" />
+    <ClInclude Include="headers\stb_image.h" />
+    <ClInclude Include="headers\View.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source files\FileManager.cpp" />
+    <ClCompile Include="source files\LettersGame.cpp" />
+    <ClCompile Include="source files\main.cpp" />
+    <ClCompile Include="source files\View.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
