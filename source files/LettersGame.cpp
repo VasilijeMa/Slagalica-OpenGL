@@ -23,7 +23,6 @@ int chosenLetterCounter = 0;
 int chosenLetters[12] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
-
 bool stopPressed = false;
 bool backspacePressed = false;
 bool clearPressed = false;
@@ -214,42 +213,42 @@ int convertLetter(wchar_t letter) {
 
 bool isOnBackspace(GLFWwindow* window) {
     return isInSquare(window,
-        screenWidth / 2.0 + screenWidth / 15 * 6 + PADDING,
-        screenHeight / 2 + screenWidth / 15 + PADDING,
-        screenWidth / 15 - 2 * PADDING,
-        screenWidth / 15 - 2 * PADDING);
+        int(9 * screenWidth / 10.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
 }
 
 bool isOnClear(GLFWwindow* window) {
     return isInSquare(window,
-        screenWidth / 2.0 - screenWidth / 15 * 7 + PADDING,
-        screenHeight / 2 + screenWidth / 15 + PADDING,
-        screenWidth / 15 - 2 * PADDING,
-        screenWidth / 15 - 2 * PADDING);
+        int(screenWidth / 30.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
 }
 
 bool isOnLetter(GLFWwindow* window, int index) {
     return isInSquare(window,
-        screenWidth / 2.0 - screenWidth / 15 * (6 - index) + PADDING,
-        screenHeight / 2 + PADDING,
-        screenWidth / 15 - 2 * PADDING,
-        screenWidth / 15 - 2 * PADDING);
+        int(screenWidth * (3 + 2 * index) / 30.0) + PADDING,
+        int(screenHeight / 2.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
 }
 
 bool isOnStop(GLFWwindow* window) {
     return isInSquare(window,
-        screenWidth / 2.0 - screenWidth / 15 + PADDING,
-        screenHeight / 2 + screenWidth / 15 + PADDING * 2,
-        2 * (screenWidth / 15 - PADDING),
-        screenWidth / 15 - 4 * PADDING);
+        int(13 * screenWidth / 30.0) + PADDING,
+        int(screenHeight / 2.0 + 2 * screenWidth / 15.0) + PADDING * 2,
+        int(2 * screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 4 * PADDING);
 }
 
 bool isOnSubmit(GLFWwindow* window) {
     return isInSquare(window,
-        screenWidth / 2.0 - screenWidth / 15 * 1.5 + PADDING,
-        screenHeight / 2 + screenWidth / 15 * 2 + PADDING * 2,
-        3 * screenWidth / 15 - 2 * PADDING,
-        screenWidth / 15 - 4 * PADDING);
+        int(4 * screenWidth / 10.0) + PADDING,
+        int(screenHeight / 2.0 + 2 * screenWidth / 15.0) + PADDING * 2,
+        int(screenWidth / 5.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 4 * PADDING);
 }
 
 void actionBackspace() {
@@ -549,25 +548,8 @@ void playLettersGame(int roundTime) {
 
         glActiveTexture(GL_TEXTURE0);
 
-        glBindTexture(GL_TEXTURE_2D, logo);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-        glBindTexture(GL_TEXTURE_2D, borderTimer);
-        glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 8, 4);
-        glBindTexture(GL_TEXTURE_2D, rowTimer);
-        glDrawArrays(GL_TRIANGLE_FAN, 12, 4);
-
-        glBindTexture(GL_TEXTURE_2D, border);
-        glDrawArrays(GL_TRIANGLE_FAN, 20, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 24, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 32, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 36, 4);
-        glBindTexture(GL_TEXTURE_2D, row);
-        glDrawArrays(GL_TRIANGLE_FAN, 28, 4);
-        glDrawArrays(GL_TRIANGLE_FAN, 40, 4);
-
-        glBindTexture(GL_TEXTURE_2D, field);
+        drawUniversalElements();
+        
         glActiveTexture(GL_TEXTURE1);
 
         for (int i = 0; i < generatedLetterCounter; i++) {
@@ -652,20 +634,19 @@ void playLettersGame(int roundTime) {
                 }
             }
 
-
             float textWidth = 0.0f;
 
             for (int i = 0; i < chosenLetterCounter; i++) {
                 textWidth += widths[generatedLetters[chosenLetters[i]]];
             }
 
-            textWidth *= screenWidth / 15;
+            textWidth *= screenWidth / 15.0;
             textWidth += PADDING / 2.0 * (chosenLetterCounter - 1);
             float prevTextWidth = 0.0f;
 
             for (int i = 0; i < chosenLetterCounter; i++) {
                 int letter = generatedLetters[chosenLetters[i]];
-                int xMiddle = int((screenWidth - textWidth + widths[letter] * screenWidth / 15 + PADDING * i) / 2.0 + prevTextWidth * screenWidth / 15);
+                int xMiddle = int((screenWidth * (1 + (widths[letter] + 2 * prevTextWidth) / 15.0) - textWidth + PADDING * i) / 2.0);
                 prevTextWidth += widths[letter];
 
                 glBindTexture(GL_TEXTURE_2D, letters[letter]);
@@ -686,7 +667,7 @@ void playLettersGame(int roundTime) {
 
             glUniform1f(glGetUniformLocation(colShader, "red"), red);
             glUniform1f(glGetUniformLocation(colShader, "kY"), kY);
-            glUniform1f(glGetUniformLocation(colShader, "minY"), convertY(int(screenHeight / 2.0 - 3 * PADDING)));
+            glUniform1f(glGetUniformLocation(colShader, "minY"), convertY(int(screenHeight / 2.0) - 3 * PADDING));
             glDrawArrays(GL_TRIANGLE_FAN, 16, 4);
         }
         else {
@@ -700,13 +681,13 @@ void playLettersGame(int roundTime) {
                     textWidth += widths[convertLetter(solution[i])];
                 }
 
-                textWidth *= screenWidth / 15;
+                textWidth *= screenWidth / 15.0;
                 textWidth += PADDING / 2.0 * (solutionLength - 1);
                 float prevTextWidth = 0.0f;
 
                 for (int i = 0; i < solutionLength; i++) {
                     int letter = convertLetter(solution[i]);
-                    int xMiddle = int((screenWidth - textWidth + widths[letter] * screenWidth / 15 + PADDING * i) / 2.0 + prevTextWidth * screenWidth / 15);
+                    int xMiddle = int((screenWidth * (1 + (widths[letter] + 2 * prevTextWidth) / 15.0) - textWidth + PADDING * i) / 2.0);
                     prevTextWidth += widths[letter];
 
                     glBindTexture(GL_TEXTURE_2D, letters[letter]);

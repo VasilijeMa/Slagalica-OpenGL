@@ -5,8 +5,6 @@
 
 extern int screenWidth;
 extern int screenHeight;
-extern float* vertices;
-extern const int vertexCount;
 
 extern unsigned int colShader;
 extern unsigned int texShader;
@@ -30,13 +28,9 @@ extern const double targetFrameTime;
 float convertX(int pixels);
 float convertY(int pixels);
 
-void formBar(int start, int y, int height);
-void formCell(int start, int x, int y, int width);
-void formTimer(int start);
-void formLogo(int start);
-
 bool isInSquare(GLFWwindow* window, float left, float up, float width, float height);
 void drawWithLens(int start, unsigned texture);
+void drawUniversalElements();
 
 extern GLFWwindow* window;
 
