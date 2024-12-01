@@ -126,6 +126,10 @@ void loadFiles() {
     error = loadTexture("buttons", "error");
     submit = loadTexture("buttons", "submit");
     logo = loadTexture("misc", "logo", true);
+    
+    for (int i = 0; i < 30; i++) {
+        letters[i] = loadTexture("letters", ("letter" + std::to_string(i + 1)).c_str());
+    }
     glBindTexture(GL_TEXTURE_2D, 0);
 
     cursorHover = loadImageToCursor("res/cursor/cursor-hover.png");

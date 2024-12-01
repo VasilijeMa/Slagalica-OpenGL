@@ -23,6 +23,7 @@ extern unsigned submitLens;
 extern unsigned error;
 extern unsigned submit;
 extern unsigned logo;
+extern unsigned letters[30];
 extern const double targetFrameTime;
 
 float convertX(int pixels);

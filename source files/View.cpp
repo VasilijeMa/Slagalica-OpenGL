@@ -22,6 +22,7 @@ unsigned submitLens;
 unsigned error;
 unsigned submit;
 unsigned logo;
+unsigned letters[30];
 
 GLFWwindow* window;
 

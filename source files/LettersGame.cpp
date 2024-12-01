@@ -1,5 +1,4 @@
 ﻿#include "LettersGame.h"
-#include "FileManager.h"
 #include "View.h"
 #include <string>
 #include <vector>
@@ -23,6 +22,7 @@ int chosenLetterCounter = 0;
 int chosenLetters[12] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
+
 bool stopPressed = false;
 bool backspacePressed = false;
 bool clearPressed = false;
@@ -366,7 +366,6 @@ void updateError() {
     isCurrentWordInvalid = false;
 }
 
-
 void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (gameEnded) return;
@@ -522,10 +521,6 @@ void playLettersGame(int roundTime) {
         });
     loadDictTask.detach();
 
-    unsigned letters[30];
-    for (int i = 0; i < 30; i++) {
-        letters[i] = loadTexture("letters", ("letter" + std::to_string(i + 1)).c_str());
-    }
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glfwSetKeyCallback(window, keyboardCallback);

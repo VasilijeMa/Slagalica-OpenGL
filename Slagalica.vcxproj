@@ -136,11 +136,22 @@
     <None Include="shaders\tex.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\box\border-timer.png" />
     <Image Include="res\box\border.png" />
+    <Image Include="res\box\row-timer.png" />
     <Image Include="res\box\row.png" />
     <Image Include="res\buttons\backspace.png" />
     <Image Include="res\buttons\clear.png" />
+    <Image Include="res\buttons\error.png" />
+    <Image Include="res\buttons\field.png" />
+    <Image Include="res\buttons\lens.png" />
+    <Image Include="res\buttons\stop-lens.png" />
     <Image Include="res\buttons\stop.png" />
+    <Image Include="res\buttons\submit-lens.png" />
+    <Image Include="res\buttons\submit.png" />
+    <Image Include="res\cursor\cursor-hover.png" />
+    <Image Include="res\cursor\cursor-open.png" />
+    <Image Include="res\cursor\cursor-press.png" />
     <Image Include="res\field.png" />
     <Image Include="res\letters\letter1.png" />
     <Image Include="res\letters\letter10.png" />
@@ -172,6 +183,30 @@
     <Image Include="res\letters\letter7.png" />
     <Image Include="res\letters\letter8.png" />
     <Image Include="res\letters\letter9.png" />
+    <Image Include="res\misc\logo.png" />
+    <Image Include="res\numbers\add.png" />
+    <Image Include="res\numbers\bracket-closed.png" />
+    <Image Include="res\numbers\bracket-open.png" />
+    <Image Include="res\numbers\divide.png" />
+    <Image Include="res\numbers\multiply.png" />
+    <Image Include="res\numbers\number0.png" />
+    <Image Include="res\numbers\number1.png" />
+    <Image Include="res\numbers\number10.png" />
+    <Image Include="res\numbers\number100.png" />
+    <Image Include="res\numbers\number15.png" />
+    <Image Include="res\numbers\number2.png" />
+    <Image Include="res\numbers\number20.png" />
+    <Image Include="res\numbers\number25.png" />
+    <Image Include="res\numbers\number3.png" />
+    <Image Include="res\numbers\number4.png" />
+    <Image Include="res\numbers\number5.png" />
+    <Image Include="res\numbers\number50.png" />
+    <Image Include="res\numbers\number6.png" />
+    <Image Include="res\numbers\number7.png" />
+    <Image Include="res\numbers\number75.png" />
+    <Image Include="res\numbers\number8.png" />
+    <Image Include="res\numbers\number9.png" />
+    <Image Include="res\numbers\subtract.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\FileManager.h" />
@@ -184,6 +219,9 @@
     <ClCompile Include="source files\LettersGame.cpp" />
     <ClCompile Include="source files\main.cpp" />
     <ClCompile Include="source files\View.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\txt\dict.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
