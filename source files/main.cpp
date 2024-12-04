@@ -1,4 +1,5 @@
 ﻿#include "LettersGame.h"
+#include "NumbersGame.h"
 #include "View.h"
 #include "FileManager.h"
 #include <iostream>
@@ -53,7 +54,7 @@ int main(void)
         return 3;
     }
 
-    const int vertexCount = 308;
+    const int vertexCount = 352;
     vertices = new float[vertexCount * 4];
 
     formVertices();
@@ -89,8 +90,8 @@ int main(void)
 
     glBindVertexArray(VAO);
 
-    playLettersGame(roundTime);
-    //TODO play numbers game
+    //playLettersGame(roundTime);
+    playNumbersGame(roundTime);
 
     glBindVertexArray(0);
 
@@ -130,6 +131,27 @@ void loadFiles() {
     for (int i = 0; i < 30; i++) {
         letters[i] = loadTexture("letters", ("letter" + std::to_string(i + 1)).c_str());
     }
+    
+    for (int i = 0; i < 10; i++) {
+        smallNumbers[i] = loadTexture("numbers", ("number" + std::to_string(i)).c_str());
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        mediumNumbers[i] = loadTexture("numbers", ("number" + std::to_string(10 + i * 5)).c_str());
+    }
+
+    for (int i = 0; i < 4; i++) {
+        largeNumbers[i] = loadTexture("numbers", ("number" + std::to_string(25 + i * 25)).c_str());
+    }
+
+    operations[0] = loadTexture("operations", "plus");
+    operations[1] = loadTexture("operations", "minus");
+    operations[2] = loadTexture("operations", "times");
+    operations[3] = loadTexture("operations", "over");
+    operations[4] = loadTexture("operations", "equals");
+    brackets[0] = loadTexture("operations", "bracket-open");
+    brackets[1] = loadTexture("operations", "bracket-closed");
+
     glBindTexture(GL_TEXTURE_2D, 0);
 
     cursorHover = loadImageToCursor("res/cursor/cursor-hover.png");
@@ -378,6 +400,13 @@ void formVertices() {
             int(screenWidth / 15.0));
     }
 
-    // TODO: 3 cifre, 2 velika broja, 6 operatora = 11 * 4 cvorova
+    for (int i = 0; i < 3; i++) { // target number
+        formCell(308 + i * 4,
+            int(screenWidth * (i + 6) / 15.0),
+            int(screenHeight / 2.0),
+            int(screenWidth / 15.0));
+    }
+
+    // TODO: 1 srednji broj, 1 veliki broj, 4 operacije, 2 zagrade
     // TODO: 4 score baferi, 2 cifre score * 2 = 8 * 4 cvorova
 }

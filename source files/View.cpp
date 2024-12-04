@@ -24,13 +24,19 @@ unsigned submit;
 unsigned logo;
 unsigned letters[30];
 
+unsigned smallNumbers[10];
+unsigned mediumNumbers[3];
+unsigned largeNumbers[4];
+unsigned operations[5];
+unsigned brackets[2];
+
 GLFWwindow* window;
 
 GLFWcursor* cursorHover;
 GLFWcursor* cursorOpen;
 GLFWcursor* cursorPress;
 
-const double targetFrameTime = 1.0 / 60.0;
+const double fps = 1.0 / 60.0;
 
 float convertX(int pixels) {
     return pixels * 2.0f / screenWidth - 1;
@@ -58,6 +64,13 @@ void drawWithLens(int start, unsigned texture) {
 }
 
 void drawUniversalElements() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(texShader);
+    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
+    glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
+
+    glActiveTexture(GL_TEXTURE0);
+
     glBindTexture(GL_TEXTURE_2D, logo);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -77,4 +90,13 @@ void drawUniversalElements() {
     glDrawArrays(GL_TRIANGLE_FAN, 40, 4);
 
     glBindTexture(GL_TEXTURE_2D, field);
+    glActiveTexture(GL_TEXTURE1);
+}
+
+bool isOnStop(GLFWwindow* window) {
+    return isInSquare(window,
+        int(13 * screenWidth / 30.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
+        int(2 * screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 4 * PADDING);
 }

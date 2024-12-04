@@ -22,9 +22,16 @@ extern unsigned stopLens;
 extern unsigned submitLens;
 extern unsigned error;
 extern unsigned submit;
+extern const double fps;
 extern unsigned logo;
+
 extern unsigned letters[30];
-extern const double targetFrameTime;
+
+extern unsigned smallNumbers[10];
+extern unsigned mediumNumbers[3];
+extern unsigned largeNumbers[4];
+extern unsigned operations[5];
+extern unsigned brackets[2];
 
 float convertX(int pixels);
 float convertY(int pixels);
@@ -32,6 +39,8 @@ float convertY(int pixels);
 bool isInSquare(GLFWwindow* window, float left, float up, float width, float height);
 void drawWithLens(int start, unsigned texture);
 void drawUniversalElements();
+
+bool isOnStop(GLFWwindow* window);
 
 extern GLFWwindow* window;
 
