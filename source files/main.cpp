@@ -306,11 +306,11 @@ void formVertices() {
     formTimer(4); //timer
 
     formBar(20, // row 1
-        int(screenHeight / 2.0 + screenWidth / 15.0),
+        int(screenHeight / 2.0 + screenWidth * 2 / 15.0),
         int(screenWidth / 15.0));
 
     formBar(32, // row 2
-        int(screenHeight / 2.0 + screenWidth * 2 / 15.0),
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0),
         int(screenWidth / 15.0));
 
     formCell(44, // background TODO
@@ -333,48 +333,48 @@ void formVertices() {
 
     formCell(56, // stop
         int(screenWidth * 13 / 30.0),
-        int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
+        int(screenHeight / 2.0 + 3 * screenWidth / 15.0),
         int(2 * screenWidth / 15.0));
 
     formCell(60, // clear
         int(screenWidth / 30.0),
-        int(screenHeight / 2.0 + screenWidth / 15.0),
+        int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
         int(screenWidth / 15.0));
 
     formCell(64, // backspace
         int(27 * screenWidth / 30.0),
-        int(screenHeight / 2.0 + screenWidth / 15.0),
+        int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
         int(screenWidth / 15.0));
 
     formCell(68, // submit
         int(2 * screenWidth / 5.0),
-        int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
+        int(screenHeight / 2.0 + 3 * screenWidth / 15.0),
         int(3 * screenWidth / 15.0));
 
     formCell(72, // error
         int(7 * screenWidth / 15.0),
-        int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
+        int(screenHeight / 2.0 + 3 * screenWidth / 15.0),
         int(screenWidth / 15.0));
 
 
     for (int i = 0; i < 12; i++) { // letters + prva 4 broja
         formCell(76 + i * 4,
             int(screenWidth * (3 + 2 * i) / 30.0),
-            int(screenHeight / 2.0),
+            int(screenHeight / 2.0 + screenWidth / 15.0),
             int(screenWidth / 15.0));
     }
 
     for (int i = 0; i < 23; i++) { // typing
         formCell(124 + i * 4,
             int(7 * screenWidth / 15.0),
-            int(screenHeight / 2.0 + screenWidth / 15.0),
+            int(screenHeight / 2.0 + screenWidth * 2 / 15.0),
             int(screenWidth / 15.0));
     }
 
     for (int i = 0; i < 23; i++) { // solution
         formCell(216 + i * 4,
             int(7 * screenWidth / 15.0),
-            int(screenHeight / 2.0 + 2 * screenWidth / 15.0),
+            int(screenHeight / 2.0 + 3 * screenWidth / 15.0),
             int(screenWidth / 15.0));
     }
 

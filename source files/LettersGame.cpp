@@ -214,7 +214,7 @@ int convertLetter(wchar_t letter) {
 bool isOnBackspace(GLFWwindow* window) {
     return isInSquare(window,
         int(9 * screenWidth / 10.0) + PADDING,
-        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
@@ -222,7 +222,7 @@ bool isOnBackspace(GLFWwindow* window) {
 bool isOnClear(GLFWwindow* window) {
     return isInSquare(window,
         int(screenWidth / 30.0) + PADDING,
-        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
@@ -230,7 +230,7 @@ bool isOnClear(GLFWwindow* window) {
 bool isOnLetter(GLFWwindow* window, int index) {
     return isInSquare(window,
         int(screenWidth * (3 + 2 * index) / 30.0) + PADDING,
-        int(screenHeight / 2.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
@@ -238,7 +238,7 @@ bool isOnLetter(GLFWwindow* window, int index) {
 bool isOnStop(GLFWwindow* window) {
     return isInSquare(window,
         int(13 * screenWidth / 30.0) + PADDING,
-        int(screenHeight / 2.0 + 2 * screenWidth / 15.0) + PADDING * 2,
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
         int(2 * screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 4 * PADDING);
 }
@@ -246,7 +246,7 @@ bool isOnStop(GLFWwindow* window) {
 bool isOnSubmit(GLFWwindow* window) {
     return isInSquare(window,
         int(4 * screenWidth / 10.0) + PADDING,
-        int(screenHeight / 2.0 + 2 * screenWidth / 15.0) + PADDING * 2,
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
         int(screenWidth / 5.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 4 * PADDING);
 }

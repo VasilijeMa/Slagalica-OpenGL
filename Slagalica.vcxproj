@@ -184,11 +184,6 @@
     <Image Include="res\letters\letter8.png" />
     <Image Include="res\letters\letter9.png" />
     <Image Include="res\misc\logo.png" />
-    <Image Include="res\numbers\add.png" />
-    <Image Include="res\numbers\bracket-closed.png" />
-    <Image Include="res\numbers\bracket-open.png" />
-    <Image Include="res\numbers\divide.png" />
-    <Image Include="res\numbers\multiply.png" />
     <Image Include="res\numbers\number0.png" />
     <Image Include="res\numbers\number1.png" />
     <Image Include="res\numbers\number10.png" />
@@ -206,15 +201,22 @@
     <Image Include="res\numbers\number75.png" />
     <Image Include="res\numbers\number8.png" />
     <Image Include="res\numbers\number9.png" />
-    <Image Include="res\numbers\subtract.png" />
+    <Image Include="res\operations\add.png" />
+    <Image Include="res\operations\bracket-closed.png" />
+    <Image Include="res\operations\bracket-open.png" />
+    <Image Include="res\operations\divide.png" />
+    <Image Include="res\operations\multiply.png" />
+    <Image Include="res\operations\subtract.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\FileManager.h" />
     <ClInclude Include="headers\LettersGame.h" />
     <ClInclude Include="headers\stb_image.h" />
     <ClInclude Include="headers\View.h" />
+    <ClInclude Include="NumbersGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NumbersGame.cpp" />
     <ClCompile Include="source files\FileManager.cpp" />
     <ClCompile Include="source files\LettersGame.cpp" />
     <ClCompile Include="source files\main.cpp" />

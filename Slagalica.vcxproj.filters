@@ -37,6 +37,9 @@
     <Filter Include="Resource Files\numbers">
       <UniqueIdentifier>{d917e245-4ffd-43f6-9e4b-6414b8b4cfdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\operations">
+      <UniqueIdentifier>{72ce3512-b8aa-4fa2-8df2-0c13b6fd3829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -249,23 +252,23 @@
     <Image Include="res\numbers\number100.png">
       <Filter>Resource Files\numbers</Filter>
     </Image>
-    <Image Include="res\numbers\add.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\add.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
-    <Image Include="res\numbers\bracket-closed.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\bracket-closed.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
-    <Image Include="res\numbers\bracket-open.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\bracket-open.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
-    <Image Include="res\numbers\divide.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\divide.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
-    <Image Include="res\numbers\multiply.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\multiply.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
-    <Image Include="res\numbers\subtract.png">
-      <Filter>Resource Files\numbers</Filter>
+    <Image Include="res\operations\subtract.png">
+      <Filter>Resource Files\operations</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +284,9 @@
     <ClInclude Include="headers\View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NumbersGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source files\FileManager.cpp">
@@ -293,6 +299,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source files\View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NumbersGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
