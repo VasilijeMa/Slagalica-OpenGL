@@ -124,6 +124,7 @@ namespace LettersGame {
     std::uniform_int_distribution<> dis(0, sizeof(probabilities) / sizeof(probabilities[0]));
     int random;
 
+    bool isInvalidWordPresent();
     bool isSubset(std::wstring subset, std::wstring set);
     bool findMatchSerial(std::wstring userWord, const std::vector<std::wstring>& allWords);
     int findBestSolutionsSerial(std::wstring randomWord, const std::vector<std::wstring>& allWords, std::vector<std::wstring>& solutions);
@@ -147,6 +148,16 @@ namespace LettersGame {
     void actionSubmit();
 
     void run(int roundTime);
+
+    bool isInvalidWordPresent() {
+        std::wstring currentWord = getCurrentWord();
+        for (std::wstring word : invalidWords) {
+            if (word == currentWord) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     bool isSubset(std::wstring subset, std::wstring set) {
 
@@ -226,6 +237,10 @@ namespace LettersGame {
     }
 
     void actionSubmit() {
+        if (isInvalidWordPresent) {
+            isCurrentWordInvalid = true;
+            return;
+        }
         std::wstring word = getCurrentWord();
         if (!findMatchSerial(word, allWords)) {
             invalidWords.push_back(word);
@@ -315,12 +330,9 @@ namespace LettersGame {
     }
 
     void updateError() {
-        std::wstring currentWord = getCurrentWord();
-        for (std::wstring word : invalidWords) {
-            if (word == currentWord) {
-                isCurrentWordInvalid = true;
-                return;
-            }
+        if (isInvalidWordPresent()) {
+            isCurrentWordInvalid = true;
+            return;
         }
         isCurrentWordInvalid = false;
     }

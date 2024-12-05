@@ -15,6 +15,7 @@ namespace NumbersGame {
     std::vector<int> targetNumber;
     std::vector<int> generatedNumbers;
     std::vector<int> chosenSymbols;
+    std::vector<std::string> invalidExpressions;
     float startTimer = 0.0f;
 
     std::random_device rd;
@@ -92,6 +93,9 @@ namespace NumbersGame {
 
     int getWidthIndex(int index);
 
+    std::string getCurrentExpression();
+    bool isInvalidExpressionPresent();
+
     bool isInvalidSymbol(int prev, int next);
     int getNumBrackets(bool closed);
 
@@ -99,6 +103,53 @@ namespace NumbersGame {
     int applyOp(int a, int b, int op);
     std::vector<int> getPostfix();
     int evaluatePostfix();
+
+    std::string getCurrentExpression() {
+        std::string expression = "";
+        for (int i = 0; i < chosenSymbols.size(); i++) {
+            int symbol = chosenSymbols[i];
+            if (symbol < 6) {
+                expression += std::to_string(generatedNumbers[symbol]);
+            }
+            else switch (symbol) {
+                case 6: {
+                    expression += '+';
+                    break;
+                }
+                case 7: {
+                    expression += '-';
+                    break;
+                }
+                case 8: {
+                    expression += '*';
+                    break;
+                }
+                case 9: {
+                    expression += ':';
+                    break;
+                }
+                case 10: {
+                    expression += '(';
+                    break;
+                }
+                case 11: {
+                    expression += ')';
+                    break;
+                }
+            }
+        }
+        return expression;
+    }
+
+    bool isInvalidExpressionPresent() {
+        std::string currentExpression = getCurrentExpression();
+        for (std::string expression : invalidExpressions) {
+            if (expression == currentExpression) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     int getWidthIndex(int index) {
         int widthIndex;
@@ -253,15 +304,11 @@ namespace NumbersGame {
     }
 
     void updateError() {
-        /*std::wstring currentWord = getCurrentWord();
-        for (std::wstring word : invalidWords) {
-            if (word == currentWord) {
-                isCurrentWordInvalid = true;
-                return;
-            }
-        }*/
+        if (isInvalidExpressionPresent()) {
+            isCurrentExpressionInvalid = true;
+            return;
+        }
         isCurrentExpressionInvalid = false;
-        //TODO
     }
 
     void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -390,11 +437,15 @@ namespace NumbersGame {
     }
 
     void actionSubmit() {
+        if (isInvalidExpressionPresent()) {
+            isCurrentExpressionInvalid = true;
+            return;
+        }
         int back = chosenSymbols.back();
         if (getNumBrackets(false) != getNumBrackets(true) ||
             (back > 5 && back < 10)) {
             isCurrentExpressionInvalid = true;
-            //TODO: zapamtiti u neki vektor
+            invalidExpressions.push_back(getCurrentExpression());
             return;
         }
         int result = evaluatePostfix();

@@ -437,6 +437,5 @@ void formVertices() {
         int(screenHeight / 2.0),
         int(screenWidth / 15.0));
 
-    // 4 operacije, 2 zagrade
     // TODO: 4 score baferi, 2 cifre score * 2 = 32 cvora
 }
