@@ -2,6 +2,7 @@
 #include "View.h"
 #include <string>
 #include <vector>
+#include <stack>
 #include <algorithm>
 #include <iostream>
 #include <random>
@@ -89,71 +90,24 @@ namespace NumbersGame {
     void actionStop();
     void actionSubmit();
 
-    bool isOnMediumNumber(GLFWwindow* window);
-    bool isOnLargeNumber(GLFWwindow* window);
-    bool isOnOperation(GLFWwindow* window, int index);
-    bool isOnBracket(GLFWwindow* window, bool closed);
-    bool isOnSymbol(GLFWwindow* window, int index);
-
     int getWidthIndex(int index);
 
     bool isInvalidSymbol(int prev, int next);
     int getNumBrackets(bool closed);
 
-    bool isOnMediumNumber(GLFWwindow* window) {
-        return isInSquare(
-            window,
-            screenWidth * 27 / 60.0 + PADDING,
-            screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
-            screenWidth / 10.0 - 2 * PADDING,
-            screenWidth / 15.0 - 2 * PADDING
-        );
-    }
-
-    bool isOnLargeNumber(GLFWwindow* window) {
-        return isInSquare(
-            window,
-            screenWidth * 23 / 30.0 + PADDING,
-            screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
-            screenWidth * 2 / 15.0 - 2 * PADDING,
-            screenWidth / 15.0 - 2 * PADDING
-        );
-    }
-
-    bool isOnOperation(GLFWwindow* window, int index) {
-        return isInSquare(
-            window,
-            screenWidth * (3 + 2 * index) / 30.0 + PADDING,
-            screenHeight / 2.0 + PADDING,
-            screenWidth / 15.0 - 2 * PADDING,
-            screenWidth / 15.0 - 2 * PADDING
-        );
-    }
-
-    bool isOnBracket(GLFWwindow* window, bool closed) {
-        return isInSquare(
-            window,
-            screenWidth * (23 + 2 * closed) / 30.0 + PADDING,
-            screenHeight / 2.0 + PADDING,
-            screenWidth / 15.0 - 2 * PADDING,
-            screenWidth / 15.0 - 2 * PADDING
-        );
-    }
-
-    bool isOnSymbol(GLFWwindow* window, int index) {
-        return (index < 4 && isOnLetter(window, index)) ||
-            (index == 4 && isOnMediumNumber(window)) ||
-            (index == 5 && isOnLargeNumber(window)) ||
-            (index > 5 && index < 10 && isOnOperation(window, index - 6)) ||
-            (index >= 10 && isOnBracket(window, index == 11));
-    }
+    int precedence(int op);
+    int applyOp(int a, int b, int op);
+    std::vector<int> getPostfix();
+    int evaluatePostfix();
 
     int getWidthIndex(int index) {
         int widthIndex;
-        if (chosenSymbols[index] < 4) widthIndex = generatedNumbers[chosenSymbols[index]];
-        else if (chosenSymbols[index] == 4) widthIndex = 10 + (generatedNumbers[chosenSymbols[index]] - 10) / 5;
-        else if (chosenSymbols[index] == 5) widthIndex = 13 + (generatedNumbers[chosenSymbols[index]] - 25) / 25;
-        else widthIndex = chosenSymbols[index] + 11;
+        int symbol = chosenSymbols[index];
+        if (symbol < 4) widthIndex = generatedNumbers[symbol];
+        else if (symbol == 4) widthIndex = 10 + (generatedNumbers[symbol] - 10) / 5;
+        else if (symbol == 5) widthIndex = 13 + (generatedNumbers[symbol] - 25) / 25;
+        else if (symbol < 12) widthIndex = symbol + 11;
+        else widthIndex = symbol - 12;
         return widthIndex;
     }
 
@@ -162,12 +116,85 @@ namespace NumbersGame {
             ((prev < 6 || prev == 11) && (next < 6 || next == 10)) ||
             (prev >= 6 && prev <= 10 && ((next >= 6 && next < 10) || next == 11));
     }
+
     int getNumBrackets(bool closed) {
         int num = 0;
         for (int i = 0; i < chosenSymbols.size(); i++) {
             if (chosenSymbols[i] == 10 + closed) num++;
         }
         return num;
+    }
+
+    int precedence(int op) {
+        if (op == 6 || op == 7) return 1;
+        if (op == 8 || op == 9) return 2;
+        return 0;
+    }
+
+    int applyOp(int a, int b, int op) {
+        switch (op) {
+        case 6: return a + b;
+        case 7: return a - b;
+        case 8: return a * b;
+        case 9: {
+            if (a < b || a % b != 0) return -1;
+            return a / b;
+        }
+        default: return 0;
+        }
+    }
+
+    std::vector<int> getPostfix() {
+        std::stack<char> operations;
+        std::vector<int> output;
+        for (int i = 0; i < chosenSymbols.size(); i++) {
+            int symbol = chosenSymbols[i];
+            if (symbol < 6) {
+                output.push_back(symbol);
+            }
+            else if (symbol == 10) {
+                operations.push(symbol);
+            }
+            else if (symbol == 11) {
+                while (!operations.empty() && operations.top() != 10) {
+                    output.push_back(operations.top());
+                    operations.pop();
+                }
+                operations.pop();
+            }
+            else if (symbol > 5 && symbol < 10) {
+                while (!operations.empty() && precedence(operations.top()) >= precedence(symbol)) {
+                    output.push_back(operations.top());
+                    operations.pop();
+                }
+                operations.push(symbol);
+            }
+        }
+        while (!operations.empty()) {
+            output.push_back(operations.top());
+            operations.pop();
+        }
+        return output;
+    }
+
+    int evaluatePostfix() {
+        std::vector<int> postfix = getPostfix();
+        std::stack<int> values;
+        for (int symbol : postfix) {
+            if (symbol < 6) {
+                values.push(generatedNumbers[symbol]);
+            }
+            else {
+                int b = values.top();
+                values.pop();
+                int a = values.top();
+                values.pop();
+                int result = applyOp(a, b, symbol);
+                if (result == -1) return -1;
+                values.push(result);
+            }
+        }
+        return values.top();
     }
 
     void updateCursor(GLFWwindow* window, GLFWcursor* cursorHover, GLFWcursor* cursorOpen, GLFWcursor* cursorPress) {
@@ -246,7 +273,7 @@ namespace NumbersGame {
                 else if (stopPressed && action == GLFW_RELEASE) actionStop();
             }
         }
-        
+
         else {
             if (key == GLFW_KEY_DELETE && chosenSymbols.size() > 0) {
                 if (action == GLFW_PRESS) clearPressed = true;
@@ -285,7 +312,7 @@ namespace NumbersGame {
     void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         if (gameEnded) return;
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
-            
+
             if (generatedNumbers.size() == 6) {
                 if (chosenSymbols.size() > 0 && isOnClear(window)) {
                     if (action == GLFW_PRESS) {
@@ -363,12 +390,30 @@ namespace NumbersGame {
     }
 
     void actionSubmit() {
-        /*std::wstring word = getCurrentWord();
-        if (!findMatchSerial(word, allWords)) {
-            invalidWords.push_back(word);
-            isCurrentWordInvalid = true;
+        int back = chosenSymbols.back();
+        if (getNumBrackets(false) != getNumBrackets(true) ||
+            (back > 5 && back < 10)) {
+            isCurrentExpressionInvalid = true;
+            //TODO: zapamtiti u neki vektor
+            return;
         }
-        else gameEnded = true;*/
+        int result = evaluatePostfix();
+        if (result < 0 || result > 999) isCurrentExpressionInvalid = true;
+        else {
+            gameEnded = true;
+            chosenSymbols.push_back(35);
+            int deg = 100;
+            while (result > 0) {
+                int digit = (result / deg);
+                if (digit > 0) chosenSymbols.push_back(digit + 12);
+                result -= digit * deg;
+                deg /= 10;
+            }
+            while (deg > 0) {
+                chosenSymbols.push_back(12);
+                deg /= 10;
+            }
+        }
     }
 
     bool isSelected(int index) {
@@ -426,7 +471,7 @@ namespace NumbersGame {
                 bool found = symbolPressed == i - 3 || isSelected(i - 3);
                 if (i < 7) {
                     glBindTexture(GL_TEXTURE_2D, smallNumbers[generatedNumbers[i - 3]]);
-                    
+
                     if (!found) glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * (i - 3), 4);
                     else {
                         drawWithLens(76 + 4 * (i - 3), lens);
@@ -518,14 +563,15 @@ namespace NumbersGame {
                     drawWithLens(344 + i * 4, lens);
                     glActiveTexture(GL_TEXTURE1);
                 }
-            }   
+            }
         }
 
         if (!chosenSymbols.empty()) {
 
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glActiveTexture(GL_TEXTURE0);
+
             if (!gameEnded) {
-                glBindTexture(GL_TEXTURE_2D, 0);
-                glActiveTexture(GL_TEXTURE0);
 
                 glBindTexture(GL_TEXTURE_2D, clear);
                 if (!clearPressed) glDrawArrays(GL_TRIANGLE_FAN, 60, 4);
@@ -540,22 +586,20 @@ namespace NumbersGame {
                     drawWithLens(64, lens);
                     glActiveTexture(GL_TEXTURE0);
                 }
-                /*if (loadDictThreadEnded) {
-                    if (!isCurrentWordInvalid) {
-                        {
-                            glBindTexture(GL_TEXTURE_2D, submit);
-                            if (!submitPressed) glDrawArrays(GL_TRIANGLE_FAN, 68, 4);
-                            else {
-                                drawWithLens(68, submitLens);
-                                glActiveTexture(GL_TEXTURE0);
-                            }
+                if (!isCurrentExpressionInvalid) {
+                    {
+                        glBindTexture(GL_TEXTURE_2D, submit);
+                        if (!submitPressed) glDrawArrays(GL_TRIANGLE_FAN, 68, 4);
+                        else {
+                            drawWithLens(68, submitLens);
+                            glActiveTexture(GL_TEXTURE0);
                         }
                     }
-                    else {
-                        glBindTexture(GL_TEXTURE_2D, error);
-                        glDrawArrays(GL_TRIANGLE_FAN, 72, 4);
-                    }
-                }*/
+                }
+                else {
+                    glBindTexture(GL_TEXTURE_2D, error);
+                    glDrawArrays(GL_TRIANGLE_FAN, 72, 4);
+                }
             }
 
             float textWidth = 0.0f;
@@ -570,16 +614,17 @@ namespace NumbersGame {
 
             for (int i = 0; i < chosenSymbols.size(); i++) {
                 int widthIndex = getWidthIndex(i);
-                
+
                 int xMiddle = int((screenWidth * (1 + (widths[widthIndex] + 2 * prevTextWidth) / 15.0) - textWidth + PADDING * i) / 2.0);
                 prevTextWidth += widths[widthIndex];
 
-                unsigned texture;
+                unsigned texture{};
                 if (widthIndex < 10) texture = smallNumbers[widthIndex];
                 else if (widthIndex < 13) texture = mediumNumbers[widthIndex - 10];
                 else if (widthIndex < 17) texture = largeNumbers[widthIndex - 13];
                 else if (widthIndex < 21) texture = operations[widthIndex - 17];
-                else texture = brackets[widthIndex - 21];
+                else if (widthIndex < 23) texture = brackets[widthIndex - 21];
+                else texture = operations[4];
 
                 float width = 0.0f;
                 if (widthIndex >= 10 && widthIndex < 13) width = 2 / 3.0;
@@ -592,7 +637,7 @@ namespace NumbersGame {
                 glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
             }
         }
-        
+
         if (!gameEnded) {
             float red = 0.0f;
             glUseProgram(colShader);

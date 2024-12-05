@@ -49,7 +49,14 @@ bool isOnStop(GLFWwindow* window);
 bool isOnBackspace(GLFWwindow* window);
 bool isOnClear(GLFWwindow* window);
 bool isOnSubmit(GLFWwindow* window);
+
 bool isOnLetter(GLFWwindow* window, int index);
+
+bool isOnMediumNumber(GLFWwindow* window);
+bool isOnLargeNumber(GLFWwindow* window);
+bool isOnOperation(GLFWwindow* window, int index);
+bool isOnBracket(GLFWwindow* window, bool closed);
+bool isOnSymbol(GLFWwindow* window, int index);
 
 extern GLFWwindow* window;
 

@@ -138,3 +138,51 @@ bool isOnSubmit(GLFWwindow* window) {
         int(screenWidth / 5.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 4 * PADDING);
 }
+
+bool isOnMediumNumber(GLFWwindow* window) {
+    return isInSquare(
+        window,
+        screenWidth * 27 / 60.0 + PADDING,
+        screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
+        screenWidth / 10.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnLargeNumber(GLFWwindow* window) {
+    return isInSquare(
+        window,
+        screenWidth * 23 / 30.0 + PADDING,
+        screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
+        screenWidth * 2 / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnOperation(GLFWwindow* window, int index) {
+    return isInSquare(
+        window,
+        screenWidth * (3 + 2 * index) / 30.0 + PADDING,
+        screenHeight / 2.0 + PADDING,
+        screenWidth / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnBracket(GLFWwindow* window, bool closed) {
+    return isInSquare(
+        window,
+        screenWidth * (23 + 2 * closed) / 30.0 + PADDING,
+        screenHeight / 2.0 + PADDING,
+        screenWidth / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnSymbol(GLFWwindow* window, int index) {
+    return (index < 4 && isOnLetter(window, index)) ||
+        (index == 4 && isOnMediumNumber(window)) ||
+        (index == 5 && isOnLargeNumber(window)) ||
+        (index > 5 && index < 10 && isOnOperation(window, index - 6)) ||
+        (index >= 10 && isOnBracket(window, index == 11));
+}
