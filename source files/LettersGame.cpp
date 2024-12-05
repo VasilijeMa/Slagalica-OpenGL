@@ -135,20 +135,16 @@ namespace LettersGame {
 
     std::wstring getCurrentWord();
     std::wstring getGeneratedLetters();
-    bool isSelected(int index);
 
     void updateCursor(GLFWwindow* window, GLFWcursor* cursorHover, GLFWcursor* cursorOpen, GLFWcursor* cursorPress);
     void updateError();
 
+    bool isSelected(int index);
     void actionBackspace();
-    bool isOnBackspace(GLFWwindow* window);
     void actionClear();
-    bool isOnClear(GLFWwindow* window);
     void actionChooseLetter(int index);
-    bool isOnLetter(GLFWwindow* window, int index);
     void actionStop();
     void actionSubmit();
-    bool isOnSubmit(GLFWwindow* window);
 
     void run(int roundTime);
 
@@ -216,38 +212,6 @@ namespace LettersGame {
             if (letter == alphabet[i]) return i;
         }
         return -1;
-    }
-
-    bool isOnBackspace(GLFWwindow* window) {
-        return isInSquare(window,
-            int(9 * screenWidth / 10.0) + PADDING,
-            int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING);
-    }
-
-    bool isOnClear(GLFWwindow* window) {
-        return isInSquare(window,
-            int(screenWidth / 30.0) + PADDING,
-            int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING);
-    }
-
-    bool isOnLetter(GLFWwindow* window, int index) {
-        return isInSquare(window,
-            int(screenWidth * (3 + 2 * index) / 30.0) + PADDING,
-            int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING,
-            int(screenWidth / 15.0) - 2 * PADDING);
-    }
-
-    bool isOnSubmit(GLFWwindow* window) {
-        return isInSquare(window,
-            int(4 * screenWidth / 10.0) + PADDING,
-            int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
-            int(screenWidth / 5.0) - 2 * PADDING,
-            int(screenWidth / 15.0) - 4 * PADDING);
     }
 
     void actionBackspace() {
@@ -483,20 +447,12 @@ namespace LettersGame {
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(texShader);
         glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
-        glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
 
         drawUniversalElements();
 
         for (int i = 0; i < generatedLetters.size(); i++) {
             glBindTexture(GL_TEXTURE_2D, letters[generatedLetters[i]]);
-            bool found = letterPressed == i;
-            if (!found)
-                for (int j = 0; j < chosenLetters.size(); j++) {
-                    if (chosenLetters[j] == i) {
-                        found = true;
-                        break;
-                    }
-                }
+            bool found = letterPressed == i || isSelected(i);
             if (!found) glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * i, 4);
             else {
                 drawWithLens(76 + i * 4, lens);
@@ -586,7 +542,6 @@ namespace LettersGame {
 
                 glBindTexture(GL_TEXTURE_2D, letters[letter]);
                 glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(xMiddle));
-                glUniform1f(glGetUniformLocation(texShader, "kX"), widths[letter]);
                 glDrawArrays(GL_TRIANGLE_FAN, 124 + i * 4, 4);
             }
         }
@@ -627,7 +582,6 @@ namespace LettersGame {
 
                     glBindTexture(GL_TEXTURE_2D, letters[letter]);
                     glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(xMiddle));
-                    glUniform1f(glGetUniformLocation(texShader, "kX"), widths[letter]);
                     glDrawArrays(GL_TRIANGLE_FAN, 216 + i * 4, 4);
                 }
             }

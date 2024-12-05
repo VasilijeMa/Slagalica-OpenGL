@@ -16,7 +16,7 @@ void main()
 		chTex = vec2(inTex.s, inTex.t);
 	}
 	else {
-		gl_Position = vec4(kX * inPos.x + uX, inPos.y + uY, 0.0, 1.0);
-		chTex = vec2(kX*inTex.s + (1 - kX)/2, inTex.t);
+		gl_Position = vec4(inPos.x / kX + uX, inPos.y + uY, 0.0, 1.0);
+		chTex = vec2(inTex.s, inTex.t);
 	}
 }

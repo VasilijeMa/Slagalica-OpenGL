@@ -124,8 +124,8 @@ void loadFiles() {
     backspace = loadTexture("buttons", "backspace");
     stop = loadTexture("buttons", "stop");
     lens = loadTexture("buttons", "lens");
-    lensL = loadTexture("buttons", "lensL");
-    lensXL = loadTexture("buttons", "lensXL");
+    lensL = loadTexture("buttons", "lens-L");
+    lensXL = loadTexture("buttons", "lens-XL");
     stopLens = loadTexture("buttons", "stop-lens");
     submitLens = loadTexture("buttons", "submit-lens");
     error = loadTexture("buttons", "error");
@@ -437,7 +437,6 @@ void formVertices() {
         int(screenHeight / 2.0),
         int(screenWidth / 15.0));
 
-
     // 4 operacije, 2 zagrade
-    // TODO: 4 score baferi, 2 cifre score * 2 = 8 * 4 cvorova
+    // TODO: 4 score baferi, 2 cifre score * 2 = 32 cvora
 }

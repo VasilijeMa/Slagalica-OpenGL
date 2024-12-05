@@ -44,7 +44,12 @@ bool isInSquare(GLFWwindow* window, float left, float up, float width, float hei
 void drawWithLens(int start, unsigned texture);
 void drawUniversalElements();
 
+//TODO: remove window
 bool isOnStop(GLFWwindow* window);
+bool isOnBackspace(GLFWwindow* window);
+bool isOnClear(GLFWwindow* window);
+bool isOnSubmit(GLFWwindow* window);
+bool isOnLetter(GLFWwindow* window, int index);
 
 extern GLFWwindow* window;
 
