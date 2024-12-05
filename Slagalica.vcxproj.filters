@@ -273,6 +273,18 @@
     <Image Include="res\operations\times.png">
       <Filter>Resource Files\operations</Filter>
     </Image>
+    <Image Include="res\buttons\field-L.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\field-XL.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\lens-L.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\lens-XL.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\FileManager.h">

@@ -118,10 +118,14 @@ void loadFiles() {
     borderTimer = loadTexture("box", "border-timer");
     rowTimer = loadTexture("box", "row-timer");
     field = loadTexture("buttons", "field");
+    fieldL = loadTexture("buttons", "field-L");
+    fieldXL = loadTexture("buttons", "field-XL");
     clear = loadTexture("buttons", "clear");
     backspace = loadTexture("buttons", "backspace");
     stop = loadTexture("buttons", "stop");
     lens = loadTexture("buttons", "lens");
+    lensL = loadTexture("buttons", "lensL");
+    lensXL = loadTexture("buttons", "lensXL");
     stopLens = loadTexture("buttons", "stop-lens");
     submitLens = loadTexture("buttons", "submit-lens");
     error = loadTexture("buttons", "error");
@@ -378,8 +382,7 @@ void formVertices() {
         int(screenHeight / 2.0 + 3 * screenWidth / 15.0),
         int(screenWidth / 15.0));
 
-
-    for (int i = 0; i < 12; i++) { // letters + prva 4 broja
+    for (int i = 0; i < 12; i++) { // letters + small numbers
         formCell(76 + i * 4,
             int(screenWidth * (3 + 2 * i) / 30.0),
             int(screenHeight / 2.0 + screenWidth / 15.0),
@@ -400,13 +403,41 @@ void formVertices() {
             int(screenWidth / 15.0));
     }
 
-    for (int i = 0; i < 3; i++) { // target number
+    for (int i = 0; i < 3; i++) { // target number digits
         formCell(308 + i * 4,
             int(screenWidth * (i + 6) / 15.0),
             int(screenHeight / 2.0),
             int(screenWidth / 15.0));
     }
 
-    // TODO: 1 srednji broj, 1 veliki broj, 4 operacije, 2 zagrade
+    formCell(320, // medium number
+        int(screenWidth * 27 / 60.0),
+        int(screenHeight / 2.0 + screenWidth / 15.0),
+        int(screenWidth / 10.0));
+
+    formCell(324, // large number
+        int(screenWidth * 23 / 30.0),
+        int(screenHeight / 2.0 + screenWidth / 15.0),
+        int(screenWidth * 2 / 15.0));
+
+    for (int i = 0; i < 4; i++) { // operations
+        formCell(328 + i * 4,
+            int(screenWidth * (3 + 2 * i) / 30.0),
+            int(screenHeight / 2.0),
+            int(screenWidth / 15.0));
+    }
+
+    formCell(344, // open bracket
+        int(screenWidth * 23 / 30.0),
+        int(screenHeight / 2.0),
+        int(screenWidth / 15.0));
+
+    formCell(348, // closed bracket
+        int(screenWidth * 5 / 6.0),
+        int(screenHeight / 2.0),
+        int(screenWidth / 15.0));
+
+
+    // 4 operacije, 2 zagrade
     // TODO: 4 score baferi, 2 cifre score * 2 = 8 * 4 cvorova
 }

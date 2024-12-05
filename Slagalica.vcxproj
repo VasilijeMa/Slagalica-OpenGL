@@ -143,7 +143,11 @@
     <Image Include="res\buttons\backspace.png" />
     <Image Include="res\buttons\clear.png" />
     <Image Include="res\buttons\error.png" />
+    <Image Include="res\buttons\field-L.png" />
+    <Image Include="res\buttons\field-XL.png" />
     <Image Include="res\buttons\field.png" />
+    <Image Include="res\buttons\lens-L.png" />
+    <Image Include="res\buttons\lens-XL.png" />
     <Image Include="res\buttons\lens.png" />
     <Image Include="res\buttons\stop-lens.png" />
     <Image Include="res\buttons\stop.png" />

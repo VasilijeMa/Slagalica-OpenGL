@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include <random>
 #include <thread>
 #include <GL/glew.h>
@@ -91,6 +92,7 @@ namespace NumbersGame {
                 glfwSetCursor(window, cursorHover);
             }
         }
+        else glfwSetCursor(window, cursorOpen);
     }
 
     void updateError() {
@@ -223,6 +225,7 @@ namespace NumbersGame {
     }
 
     void actionStop() {
+        if (generatedNumbers.size() == 6) return;
         if (targetNumber.size() < 3) {
             targetNumber.push_back(random);
         }
@@ -230,10 +233,10 @@ namespace NumbersGame {
             generatedNumbers.push_back(random);
         }
         else if (generatedNumbers.size() == 4) {
-            return; //TODO
+            generatedNumbers.push_back(10 + random * 5);
         }
         else if (generatedNumbers.size() == 5) {
-            return; //TODO
+            generatedNumbers.push_back(25 + random * 25);
         }
     }
 
@@ -270,40 +273,88 @@ namespace NumbersGame {
                 }*/
             }
             else if (i == 7) {
-                //glBindTexture(GL_TEXTURE_2D, mediumNumbers[(generatedNumbers[i - 3] - 10) / 5]);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, fieldL);
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, mediumNumbers[(generatedNumbers[i - 3] - 10) / 5]);
+                glDrawArrays(GL_TRIANGLE_FAN, 320, 4);
             }
             else if (i == 8) {
-                //glBindTexture(GL_TEXTURE_2D, largeNumbers[(generatedNumbers[i - 3] - 25) / 25]);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, fieldXL);
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, largeNumbers[(generatedNumbers[i - 3] - 25) / 25]);
+                glDrawArrays(GL_TRIANGLE_FAN, 324, 4);
             }
         }
 
-        if (targetNumber.size() < 3) {
+        if (generatedNumbers.size() < 6) {
+            if (targetNumber.size() < 3) {
+                random = disDigit(gen);
+                glBindTexture(GL_TEXTURE_2D, smallNumbers[random]);
+                glDrawArrays(GL_TRIANGLE_FAN, 308 + 4 * targetNumber.size(), 4);
+            }
+            else if (generatedNumbers.size() < 4) {
+                random = disSmall(gen);
+                glBindTexture(GL_TEXTURE_2D, smallNumbers[random]);
+                glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * generatedNumbers.size(), 4);
+            }
+            else if (generatedNumbers.size() == 4) {
+                random = disMedium(gen);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, fieldL);
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, mediumNumbers[random]);
+                glDrawArrays(GL_TRIANGLE_FAN, 320, 4);
+            }
+            else if (generatedNumbers.size() == 5) {
+                random = disLarge(gen);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, fieldXL);
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, largeNumbers[random]);
+                glDrawArrays(GL_TRIANGLE_FAN, 324, 4);
+            }
 
-            random = disDigit(gen);
-            glBindTexture(GL_TEXTURE_2D, smallNumbers[random]);
-            glDrawArrays(GL_TRIANGLE_FAN, 308 + 4 * targetNumber.size(), 4);
-        }
-        else if (generatedNumbers.size() < 4) {
-            random = disSmall(gen);
-            glBindTexture(GL_TEXTURE_2D, smallNumbers[random]);
-            glDrawArrays(GL_TRIANGLE_FAN, 76 + 4 * generatedNumbers.size(), 4);
-
-        }
-        else if (generatedNumbers.size() == 4) {
-            // TODO
-        }
-        else if (generatedNumbers.size() == 5) {
-            // TODO
-        }
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glActiveTexture(GL_TEXTURE0);
-
-        glBindTexture(GL_TEXTURE_2D, stop);
-        if (!stopPressed) glDrawArrays(GL_TRIANGLE_FAN, 56, 4);
-        else {
-            drawWithLens(56, stopLens);
+            glBindTexture(GL_TEXTURE_2D, 0);
             glActiveTexture(GL_TEXTURE0);
+
+            glBindTexture(GL_TEXTURE_2D, stop);
+            if (!stopPressed) glDrawArrays(GL_TRIANGLE_FAN, 56, 4);
+            else {
+                drawWithLens(56, stopLens);
+                glActiveTexture(GL_TEXTURE0);
+            }
+        }
+        else {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, field);
+            glActiveTexture(GL_TEXTURE1);
+
+            for (int i = 0; i < 4; i++) {
+                glBindTexture(GL_TEXTURE_2D, operations[i]);
+                glDrawArrays(GL_TRIANGLE_FAN, 328 + i * 4, 4);
+            }
+
+            for (int i = 0; i < 2; i++) {
+                glBindTexture(GL_TEXTURE_2D, brackets[i]);
+                glDrawArrays(GL_TRIANGLE_FAN, 344 + i * 4, 4);
+            }   
+        }
+        
+        if (!gameEnded) {
+            float red = 0.0f;
+            glUseProgram(colShader);
+            if (generatedNumbers.size() == 6) {
+                red = (glfwGetTime() - startTimer) / roundTime;
+                if (red > 0.975) gameEnded = true;
+            }
+            float kY = 1.0f - red;
+
+            glUniform1f(glGetUniformLocation(colShader, "red"), red);
+            glUniform1f(glGetUniformLocation(colShader, "kY"), kY);
+            glUniform1f(glGetUniformLocation(colShader, "minY"), convertY(int(screenHeight / 2.0) - 3 * PADDING));
+            glDrawArrays(GL_TRIANGLE_FAN, 16, 4);
         }
 
         glBindTexture(GL_TEXTURE_2D, 0);
