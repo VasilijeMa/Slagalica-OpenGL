@@ -103,6 +103,13 @@ namespace NumbersGame {
     int applyOp(int a, int b, int op);
     std::vector<int> getPostfix();
     int evaluatePostfix();
+    void generateParentheticalExpressions(
+        const std::vector<int>& nums,
+        const std::vector<char>& ops,
+        std::vector<std::string>& results,
+        int left, int right
+    );
+    std::string findExpressionWithParentheses(std::vector<int>& nums, int target);
 
     std::string getCurrentExpression() {
         std::string expression = "";
@@ -188,7 +195,7 @@ namespace NumbersGame {
         case 7: return a - b;
         case 8: return a * b;
         case 9: {
-            if (a < b || a % b != 0) return -1;
+            if (b == 0 || a < b || a % b != 0) return -1;
             return a / b;
         }
         default: return 0;
@@ -246,6 +253,59 @@ namespace NumbersGame {
             }
         }
         return values.top();
+    }
+
+    void generateParentheticalExpressions(
+        const std::vector<int>& nums,
+        const std::vector<char>& ops,
+        std::vector<std::string>& results,
+        int left, int right
+    ) {
+        if (left == right) {
+            results.push_back(std::to_string(nums[left]));
+            return;
+        }
+
+        for (int i = left; i < right; ++i) {
+            std::vector<std::string> leftExpr, rightExpr;
+            generateParentheticalExpressions(nums, ops, leftExpr, left, i);
+            generateParentheticalExpressions(nums, ops, rightExpr, i + 1, right);
+
+            for (const auto& l : leftExpr) {
+                for (const auto& r : rightExpr) {
+                    results.push_back("(" + l + ops[i] + r + ")");
+                }
+            }
+        }
+    }
+
+    std::string findExpressionWithParentheses(std::vector<int>& nums, int target) {
+        std::vector<char> ops = { '+', '-', '*', '/' };
+        std::string result;
+
+        std::sort(nums.begin(), nums.end());
+        do {
+            for (int numOps = 1; numOps < nums.size(); ++numOps) {
+                std::vector<char> opsCombination(numOps);
+                for (size_t i = 0; i < opsCombination.size(); ++i) {
+                    for (char op : ops) {
+                        opsCombination[i] = op;
+
+                        // Generate parenthetical combinations
+                        std::vector<std::string> expressions;
+                        generateParentheticalExpressions(nums, opsCombination, expressions, 0, numOps);
+
+                        for (const auto& expr : expressions) {
+                            if (evaluatePostfix() == target) {
+                                return expr;
+                            }
+                        }
+                    }
+                }
+            }
+        } while (std::next_permutation(nums.begin(), nums.end()));
+
+        return "No solution";
     }
 
     void updateCursor(GLFWwindow* window, GLFWcursor* cursorHover, GLFWcursor* cursorOpen, GLFWcursor* cursorPress) {

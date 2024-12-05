@@ -27,7 +27,9 @@ extern unsigned submitLens;
 extern unsigned error;
 extern unsigned submit;
 extern const double fps;
+extern unsigned background;
 extern unsigned logo;
+extern unsigned player;
 
 extern unsigned letters[30];
 

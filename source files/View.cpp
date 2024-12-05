@@ -25,9 +25,11 @@ unsigned stopLens;
 unsigned submitLens;
 unsigned error;
 unsigned submit;
+unsigned background;
 unsigned logo;
-unsigned letters[30];
+unsigned player;
 
+unsigned letters[30];
 unsigned smallNumbers[10];
 unsigned mediumNumbers[3];
 unsigned largeNumbers[4];
@@ -76,6 +78,8 @@ void drawUniversalElements() {
     glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
 
     glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, background);
+    glDrawArrays(GL_TRIANGLE_FAN, 44, 4);
 
     glBindTexture(GL_TEXTURE_2D, logo);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
@@ -94,6 +98,9 @@ void drawUniversalElements() {
     glBindTexture(GL_TEXTURE_2D, row);
     glDrawArrays(GL_TRIANGLE_FAN, 28, 4);
     glDrawArrays(GL_TRIANGLE_FAN, 40, 4);
+    glBindTexture(GL_TEXTURE_2D, player);
+    glDrawArrays(GL_TRIANGLE_FAN, 48, 4);
+    glDrawArrays(GL_TRIANGLE_FAN, 52, 4);
 
     glBindTexture(GL_TEXTURE_2D, field);
     glActiveTexture(GL_TEXTURE1);

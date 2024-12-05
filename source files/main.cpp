@@ -90,8 +90,8 @@ int main(void)
 
     glBindVertexArray(VAO);
 
-    //playLettersGame(roundTime);
-    playNumbersGame(roundTime);
+    playLettersGame(roundTime);
+    //playNumbersGame(roundTime);
 
     glBindVertexArray(0);
 
@@ -130,7 +130,9 @@ void loadFiles() {
     submitLens = loadTexture("buttons", "submit-lens");
     error = loadTexture("buttons", "error");
     submit = loadTexture("buttons", "submit");
+    background = loadTexture("misc", "background");
     logo = loadTexture("misc", "logo", true);
+    player = loadTexture("misc", "player");
     
     for (int i = 0; i < 30; i++) {
         letters[i] = loadTexture("letters", ("letter" + std::to_string(i + 1)).c_str());
@@ -326,6 +328,50 @@ void formLogo(int start) {
     }
 }
 
+void formPlayer(int start, int left, int up, int orientation) {
+    for (int i = start; i < start + 4; i++) {
+        if ((i + 1) % 4 < 2) {
+            vertices[i * 4] = convertX(left + PADDING);
+            vertices[i * 4 + 2] = 0.0;
+        }
+        else {
+            vertices[i * 4] = convertX(left + orientation * int(screenWidth * 6 / 30.0) - PADDING);
+            vertices[i * 4 + 2] = 1.0;
+        }
+
+        if (i % 4 < 2) {
+            vertices[i * 4 + 1] = convertY(up + int(screenWidth * 6 / 30.0) - PADDING);
+            vertices[i * 4 + 3] = 0.0;
+        }
+        else {
+            vertices[i * 4 + 1] = convertY(up + PADDING);
+            vertices[i * 4 + 3] = 1.0;
+        }
+    }
+}
+
+void formBackground(int start) {
+    for (int i = start; i < start + 4; i++) {
+        if ((i + 1) % 4 < 2) {
+            vertices[i * 4] = -1.0;
+            vertices[i * 4 + 2] = 0.0;
+        }
+        else {
+            vertices[i * 4] = 1.0;
+            vertices[i * 4 + 2] = 1.0;
+        }
+
+        if (i % 4 < 2) {
+            vertices[i * 4 + 1] = -1.0;
+            vertices[i * 4 + 3] = 0.0;
+        }
+        else {
+            vertices[i * 4 + 1] = 1.0;
+            vertices[i * 4 + 3] = 1.0;
+        }
+    }
+}
+
 void formVertices() {
     formLogo(0); // logo
 
@@ -339,23 +385,11 @@ void formVertices() {
         int(screenHeight / 2.0 + screenWidth * 3 / 15.0),
         int(screenWidth / 15.0));
 
-    formCell(44, // background TODO
-        0,
-        0,
-        0
-    );
+    formBackground(44); // background
 
-    formCell(48, // pic1 TODO
-        0,
-        0,
-        0
-    );
+    formPlayer(48, int(screenWidth * 5 / 30.0), int(screenWidth / 30.0), 1); // pic1
 
-    formCell(52, // pic2 TODO
-        0,
-        0,
-        0
-    );
+    formPlayer(52, int(screenWidth * 25 / 30.0), int(screenWidth / 30.0), -1); // pic2
 
     formCell(56, // stop
         int(screenWidth * 13 / 30.0),
