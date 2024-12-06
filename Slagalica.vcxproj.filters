@@ -25,6 +25,21 @@
     <Filter Include="Resource Files\buttons">
       <UniqueIdentifier>{e1f02df7-3ab6-47c8-a8b8-291aacf04232}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\cursor">
+      <UniqueIdentifier>{cce859f3-3d50-4da0-8808-8815664e218a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\misc">
+      <UniqueIdentifier>{d570ee3d-5286-4974-be31-5f94c03b7e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\txt">
+      <UniqueIdentifier>{1eaab5ae-a227-4592-83f2-b5af30bd2421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\numbers">
+      <UniqueIdentifier>{d917e245-4ffd-43f6-9e4b-6414b8b4cfdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\operations">
+      <UniqueIdentifier>{72ce3512-b8aa-4fa2-8df2-0c13b6fd3829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -150,6 +165,126 @@
     <Image Include="res\buttons\stop.png">
       <Filter>Resource Files\buttons</Filter>
     </Image>
+    <Image Include="res\box\border-timer.png">
+      <Filter>Resource Files\box</Filter>
+    </Image>
+    <Image Include="res\box\row-timer.png">
+      <Filter>Resource Files\box</Filter>
+    </Image>
+    <Image Include="res\buttons\error.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\field.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\lens.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\stop-lens.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\submit.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\submit-lens.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\cursor\cursor-hover.png">
+      <Filter>Resource Files\cursor</Filter>
+    </Image>
+    <Image Include="res\cursor\cursor-open.png">
+      <Filter>Resource Files\cursor</Filter>
+    </Image>
+    <Image Include="res\cursor\cursor-press.png">
+      <Filter>Resource Files\cursor</Filter>
+    </Image>
+    <Image Include="res\misc\logo.png">
+      <Filter>Resource Files\misc</Filter>
+    </Image>
+    <Image Include="res\numbers\number0.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number1.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number2.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number3.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number4.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number5.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number6.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number7.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number8.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number9.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number10.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number15.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number20.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number25.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number50.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number75.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\numbers\number100.png">
+      <Filter>Resource Files\numbers</Filter>
+    </Image>
+    <Image Include="res\operations\bracket-closed.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\bracket-open.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\equals.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\minus.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\over.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\plus.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\operations\times.png">
+      <Filter>Resource Files\operations</Filter>
+    </Image>
+    <Image Include="res\buttons\field-L.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\field-XL.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\lens-L.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
+    <Image Include="res\buttons\lens-XL.png">
+      <Filter>Resource Files\buttons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\FileManager.h">
@@ -162,6 +297,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\NumbersGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -178,5 +316,13 @@
     <ClCompile Include="source files\View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source files\NumbersGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\txt\dict.txt">
+      <Filter>Resource Files\txt</Filter>
+    </Text>
   </ItemGroup>
 </Project>

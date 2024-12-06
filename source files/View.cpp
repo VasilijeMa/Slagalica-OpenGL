@@ -5,6 +5,8 @@
 int screenHeight;
 int screenWidth;
 
+int score = 0;
+
 unsigned int colShader;
 unsigned int texShader;
 
@@ -13,15 +15,41 @@ unsigned row;
 unsigned borderTimer;
 unsigned rowTimer;
 unsigned field;
+unsigned fieldL;
+unsigned fieldXL;
 unsigned clear;
 unsigned backspace;
 unsigned stop;
 unsigned lens;
+unsigned lensL;
+unsigned lensXL;
 unsigned stopLens;
 unsigned submitLens;
 unsigned error;
 unsigned submit;
+unsigned background;
 unsigned logo;
+unsigned player;
+
+unsigned letters[30];
+unsigned smallNumbers[10];
+unsigned mediumNumbers[3];
+unsigned largeNumbers[4];
+unsigned operations[5];
+unsigned brackets[2];
+
+float widths[24] = {
+        0.421875, // 0
+        0.34375, // 1
+        0.390625, // 2
+        0.375, // 3
+        0.4375, // 4
+        0.390625, // 5
+        0.40625, // 6
+        0.390625, // 7
+        0.421875, // 8
+        0.390625, // 9
+};
 
 GLFWwindow* window;
 
@@ -29,7 +57,9 @@ GLFWcursor* cursorHover;
 GLFWcursor* cursorOpen;
 GLFWcursor* cursorPress;
 
-const double targetFrameTime = 1.0 / 60.0;
+const double fps = 1.0 / 60.0;
+
+bool isInSquare(float left, float up, float width, float height);
 
 float convertX(int pixels) {
     return pixels * 2.0f / screenWidth - 1;
@@ -39,7 +69,7 @@ float convertY(int pixels) {
     return 1 - pixels * 2.0f / screenHeight;
 }
 
-bool isInSquare(GLFWwindow* window, float left, float up, float width, float height) {
+bool isInSquare(float left, float up, float width, float height) {
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
     return
@@ -57,8 +87,19 @@ void drawWithLens(int start, unsigned texture) {
 }
 
 void drawUniversalElements() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(texShader);
+    glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
+    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, background);
+    glDrawArrays(GL_TRIANGLE_FAN, 44, 4);
+
+    glUniform1f(glGetUniformLocation(texShader, "alpha"), 0.4);
     glBindTexture(GL_TEXTURE_2D, logo);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glUniform1f(glGetUniformLocation(texShader, "alpha"), 0);
 
     glBindTexture(GL_TEXTURE_2D, borderTimer);
     glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
@@ -74,6 +115,115 @@ void drawUniversalElements() {
     glBindTexture(GL_TEXTURE_2D, row);
     glDrawArrays(GL_TRIANGLE_FAN, 28, 4);
     glDrawArrays(GL_TRIANGLE_FAN, 40, 4);
+    glBindTexture(GL_TEXTURE_2D, player);
+    glDrawArrays(GL_TRIANGLE_FAN, 48, 4);
+    glDrawArrays(GL_TRIANGLE_FAN, 52, 4);
+
+    glBindTexture(GL_TEXTURE_2D, fieldL);
+    glDrawArrays(GL_TRIANGLE_FAN, 352, 4);
+    
+    int digit1 = score / 10;
+    int digit2 = score % 10;
+
+    if (digit1 == 0) {
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit2]);
+        glDrawArrays(GL_TRIANGLE_FAN, 356, 4);
+    }
+    else {
+        glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(int(screenWidth / 2.0 - widths[digit1] / 2.0 * screenWidth / 15.0 - PADDING / 2.0)));
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit1]);
+        glDrawArrays(GL_TRIANGLE_FAN, 356, 4);
+        glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(int(screenWidth / 2.0 + widths[digit2] / 2.0 * screenWidth / 15.0 + PADDING / 2.0)));
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit2]);
+        glDrawArrays(GL_TRIANGLE_FAN, 360, 4);
+    }
+
+    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
 
     glBindTexture(GL_TEXTURE_2D, field);
+    glActiveTexture(GL_TEXTURE1);
+}
+
+bool isOnStop() {
+    return isInSquare(
+        int(13 * screenWidth / 30.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
+        int(2 * screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 4 * PADDING);
+}
+
+bool isOnBackspace() {
+    return isInSquare(
+        int(9 * screenWidth / 10.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
+}
+
+bool isOnClear() {
+    return isInSquare(
+        int(screenWidth / 30.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
+}
+
+bool isOnLetter(int index) {
+    return isInSquare(
+        int(screenWidth * (3 + 2 * index) / 30.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 2 * PADDING);
+}
+
+bool isOnSubmit() {
+    return isInSquare(
+        int(4 * screenWidth / 10.0) + PADDING,
+        int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
+        int(screenWidth / 5.0) - 2 * PADDING,
+        int(screenWidth / 15.0) - 4 * PADDING);
+}
+
+bool isOnMediumNumber() {
+    return isInSquare(
+        screenWidth * 27 / 60.0 + PADDING,
+        screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
+        screenWidth / 10.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnLargeNumber() {
+    return isInSquare(
+        screenWidth * 23 / 30.0 + PADDING,
+        screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
+        screenWidth * 2 / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnOperation(int index) {
+    return isInSquare(
+        screenWidth * (3 + 2 * index) / 30.0 + PADDING,
+        screenHeight / 2.0 + PADDING,
+        screenWidth / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnBracket(bool closed) {
+    return isInSquare(
+        screenWidth * (23 + 2 * closed) / 30.0 + PADDING,
+        screenHeight / 2.0 + PADDING,
+        screenWidth / 15.0 - 2 * PADDING,
+        screenWidth / 15.0 - 2 * PADDING
+    );
+}
+
+bool isOnSymbol(int index) {
+    return (index < 4 && isOnLetter(index)) ||
+        (index == 4 && isOnMediumNumber()) ||
+        (index == 5 && isOnLargeNumber()) ||
+        (index > 5 && index < 10 && isOnOperation(index - 6)) ||
+        (index >= 10 && isOnBracket(index == 11));
 }
