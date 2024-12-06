@@ -604,6 +604,8 @@ namespace NumbersGame {
     }
 
     void drawNumbers(const std::vector<int>& symbols, int start) {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE0);
         float textWidth = 0.0f;
 
         for (int i = 0; i < symbols.size(); i++) {
