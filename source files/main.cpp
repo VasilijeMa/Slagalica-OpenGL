@@ -54,7 +54,7 @@ int main(void)
         return 3;
     }
 
-    const int vertexCount = 352;
+    const int vertexCount = 364;
     vertices = new float[vertexCount * 4];
 
     formVertices();
@@ -90,7 +90,7 @@ int main(void)
 
     glBindVertexArray(VAO);
 
-    //playLettersGame(roundTime);
+    playLettersGame(roundTime);
     playNumbersGame(roundTime);
 
     glBindVertexArray(0);
@@ -246,7 +246,7 @@ void formTimer(int start) {
 
         if (i % 4 < 2) {
             if (i < start + 4) {
-                vertices[i * 4 + 1] = convertY(int(screenWidth / 30.0) - PADDING);
+                vertices[i * 4 + 1] = convertY(int(screenWidth / 10.0) - PADDING);
                 vertices[i * 4 + 3] = 0.0;
             }
             else {
@@ -256,7 +256,7 @@ void formTimer(int start) {
         }
         else {
             if (i < start + 4) {
-                vertices[i * 4 + 1] = convertY(PADDING);
+                vertices[i * 4 + 1] = convertY(int(screenWidth / 15.0) + PADDING);
                 vertices[i * 4 + 3] = 1.0;
             }
             else {
@@ -281,7 +281,7 @@ void formTimer(int start) {
             vertices[i * 4 + 3] = 0.0;
         }
         else {
-            vertices[i * 4 + 1] = convertY(int(screenWidth / 30.0) - PADDING);
+            vertices[i * 4 + 1] = convertY(int(screenWidth / 10.0) - PADDING);
             vertices[i * 4 + 3] = 1.0;
         }
     }
@@ -298,7 +298,7 @@ void formTimer(int start) {
             vertices[i * 4 + 1] = convertY(int(screenHeight / 2.0) - 3 * PADDING);
         }
         else {
-            vertices[i * 4 + 1] = convertY(3 * PADDING);
+            vertices[i * 4 + 1] = convertY(int(screenWidth / 15.0) + 3 * PADDING);
         }
         vertices[i * 4 + 2] = 0.0;
         vertices[i * 4 + 3] = 1.0;
@@ -471,5 +471,18 @@ void formVertices() {
         int(screenHeight / 2.0),
         int(screenWidth / 15.0));
 
-    // TODO: 4 score baferi, 2 cifre score * 2 = 32 cvora
+    formCell(352, // score field
+        int(screenWidth * 27 / 60.0),
+        0,
+        int(screenWidth / 10.0));
+
+    formCell(356, // score digit 1
+        int(screenWidth * 7 / 15.0),
+        0,
+        int(screenWidth / 15.0));
+
+    formCell(360, // scored digit 2
+        int(screenWidth * 7 / 15.0),
+        0,
+        int(screenWidth / 15.0));
 }

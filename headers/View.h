@@ -6,6 +6,8 @@
 extern int screenWidth;
 extern int screenHeight;
 
+extern int score;
+
 extern unsigned int colShader;
 extern unsigned int texShader;
 
@@ -46,7 +48,6 @@ bool isInSquare(float left, float up, float width, float height);
 void drawWithLens(int start, unsigned texture);
 void drawUniversalElements();
 
-//TODO: remove window
 bool isOnStop();
 bool isOnBackspace();
 bool isOnClear();

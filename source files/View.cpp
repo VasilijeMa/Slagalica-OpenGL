@@ -5,6 +5,8 @@
 int screenHeight;
 int screenWidth;
 
+int score = 0;
+
 unsigned int colShader;
 unsigned int texShader;
 
@@ -35,6 +37,19 @@ unsigned mediumNumbers[3];
 unsigned largeNumbers[4];
 unsigned operations[5];
 unsigned brackets[2];
+
+float widths[24] = {
+        0.421875, // 0
+        0.34375, // 1
+        0.390625, // 2
+        0.375, // 3
+        0.4375, // 4
+        0.390625, // 5
+        0.40625, // 6
+        0.390625, // 7
+        0.421875, // 8
+        0.390625, // 9
+};
 
 GLFWwindow* window;
 
@@ -74,8 +89,8 @@ void drawWithLens(int start, unsigned texture) {
 void drawUniversalElements() {
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(texShader);
-    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
     glUniform1f(glGetUniformLocation(texShader, "kX"), 0);
+    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, background);
@@ -84,8 +99,8 @@ void drawUniversalElements() {
     glUniform1f(glGetUniformLocation(texShader, "alpha"), 0.4);
     glBindTexture(GL_TEXTURE_2D, logo);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
     glUniform1f(glGetUniformLocation(texShader, "alpha"), 0);
+
     glBindTexture(GL_TEXTURE_2D, borderTimer);
     glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
     glDrawArrays(GL_TRIANGLE_FAN, 8, 4);
@@ -103,6 +118,27 @@ void drawUniversalElements() {
     glBindTexture(GL_TEXTURE_2D, player);
     glDrawArrays(GL_TRIANGLE_FAN, 48, 4);
     glDrawArrays(GL_TRIANGLE_FAN, 52, 4);
+
+    glBindTexture(GL_TEXTURE_2D, fieldL);
+    glDrawArrays(GL_TRIANGLE_FAN, 352, 4);
+    
+    int digit1 = score / 10;
+    int digit2 = score % 10;
+
+    if (digit1 == 0) {
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit2]);
+        glDrawArrays(GL_TRIANGLE_FAN, 356, 4);
+    }
+    else {
+        glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(int(screenWidth / 2.0 - widths[digit1] / 2.0 * screenWidth / 15.0 - PADDING / 2.0)));
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit1]);
+        glDrawArrays(GL_TRIANGLE_FAN, 356, 4);
+        glUniform1f(glGetUniformLocation(texShader, "uX"), convertX(int(screenWidth / 2.0 + widths[digit2] / 2.0 * screenWidth / 15.0 + PADDING / 2.0)));
+        glBindTexture(GL_TEXTURE_2D, smallNumbers[digit2]);
+        glDrawArrays(GL_TRIANGLE_FAN, 360, 4);
+    }
+
+    glUniform1f(glGetUniformLocation(texShader, "uX"), 0);
 
     glBindTexture(GL_TEXTURE_2D, field);
     glActiveTexture(GL_TEXTURE1);

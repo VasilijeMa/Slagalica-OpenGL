@@ -554,6 +554,9 @@ namespace NumbersGame {
         int result = evaluatePostfix(chosenSymbols);
         if (result < 0 || result > 999) isCurrentExpressionInvalid = true;
         else {
+            int target = getTargetNumber();
+            if (target == result) score += 30;
+            else if (abs(target - result) < 5) score += 25;
             gameEnded = true;
             chosenSymbols.push_back(35);
             int deg = 100;

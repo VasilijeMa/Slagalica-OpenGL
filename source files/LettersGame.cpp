@@ -246,7 +246,10 @@ namespace LettersGame {
             invalidWords.push_back(word);
             isCurrentWordInvalid = true;
         }
-        else gameEnded = true;
+        else {
+            gameEnded = true;
+            score += chosenLetters.size() * 3;
+        }
     }
 
     bool isSelected(int index) {
