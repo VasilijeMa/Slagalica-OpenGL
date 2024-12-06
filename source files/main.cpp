@@ -36,10 +36,6 @@ int main(void)
     screenHeight = mode->height;
     window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", monitor, NULL);
 
-    /*screenWidth = 800;
-    screenHeight = 600;
-    window = glfwCreateWindow(screenWidth, screenHeight, "Slagalica", NULL, NULL);*/
-
     if (window == NULL)
     {
         std::cout << "Prozor nije napravljen! :(\n";
