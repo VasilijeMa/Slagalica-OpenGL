@@ -339,7 +339,6 @@ namespace NumbersGame {
             std::vector<std::vector<int>> subsets = generateSubsets(i);
             for (std::vector<int> subset : subsets) {
                 std::vector<int> expression = generateBestExpression(subset);
-                //std::cout << convertExpression(expression) << std::endl;
                 int result = evaluatePostfix(expression);
                 if (result == targetNumber) return expression;
                 else if (abs(result - targetNumber) < abs(bestResult - targetNumber)) {

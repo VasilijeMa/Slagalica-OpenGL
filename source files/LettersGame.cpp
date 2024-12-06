@@ -647,5 +647,4 @@ void playLettersGame(int roundTime) {
         run(roundTime);
         if (endTime > 0.0 && glfwGetTime() - endTime > solutions.size() * 2) break;
     }
-    std::cout << solutions.size() << std::endl;
 }
