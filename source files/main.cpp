@@ -90,8 +90,8 @@ int main(void)
 
     glBindVertexArray(VAO);
 
-    playLettersGame(roundTime);
-    //playNumbersGame(roundTime);
+    //playLettersGame(roundTime);
+    playNumbersGame(roundTime);
 
     glBindVertexArray(0);
 
@@ -331,11 +331,11 @@ void formLogo(int start) {
 void formPlayer(int start, int left, int up, int orientation) {
     for (int i = start; i < start + 4; i++) {
         if ((i + 1) % 4 < 2) {
-            vertices[i * 4] = convertX(left + PADDING);
+            vertices[i * 4] = convertX(left + orientation * PADDING);
             vertices[i * 4 + 2] = 0.0;
         }
         else {
-            vertices[i * 4] = convertX(left + orientation * int(screenWidth * 6 / 30.0) - PADDING);
+            vertices[i * 4] = convertX(left + orientation * int(screenWidth * 6 / 30.0) - orientation * PADDING);
             vertices[i * 4 + 2] = 1.0;
         }
 

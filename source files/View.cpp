@@ -44,7 +44,7 @@ GLFWcursor* cursorPress;
 
 const double fps = 1.0 / 60.0;
 
-bool isInSquare(GLFWwindow* window, float left, float up, float width, float height);
+bool isInSquare(float left, float up, float width, float height);
 
 float convertX(int pixels) {
     return pixels * 2.0f / screenWidth - 1;
@@ -54,7 +54,7 @@ float convertY(int pixels) {
     return 1 - pixels * 2.0f / screenHeight;
 }
 
-bool isInSquare(GLFWwindow* window, float left, float up, float width, float height) {
+bool isInSquare(float left, float up, float width, float height) {
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
     return
@@ -81,9 +81,11 @@ void drawUniversalElements() {
     glBindTexture(GL_TEXTURE_2D, background);
     glDrawArrays(GL_TRIANGLE_FAN, 44, 4);
 
+    glUniform1f(glGetUniformLocation(texShader, "alpha"), 0.4);
     glBindTexture(GL_TEXTURE_2D, logo);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
+    glUniform1f(glGetUniformLocation(texShader, "alpha"), 0);
     glBindTexture(GL_TEXTURE_2D, borderTimer);
     glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
     glDrawArrays(GL_TRIANGLE_FAN, 8, 4);
@@ -106,49 +108,48 @@ void drawUniversalElements() {
     glActiveTexture(GL_TEXTURE1);
 }
 
-bool isOnStop(GLFWwindow* window) {
-    return isInSquare(window,
+bool isOnStop() {
+    return isInSquare(
         int(13 * screenWidth / 30.0) + PADDING,
         int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
         int(2 * screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 4 * PADDING);
 }
 
-bool isOnBackspace(GLFWwindow* window) {
-    return isInSquare(window,
+bool isOnBackspace() {
+    return isInSquare(
         int(9 * screenWidth / 10.0) + PADDING,
         int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
 
-bool isOnClear(GLFWwindow* window) {
-    return isInSquare(window,
+bool isOnClear() {
+    return isInSquare(
         int(screenWidth / 30.0) + PADDING,
         int(screenHeight / 2.0 + screenWidth * 2 / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
 
-bool isOnLetter(GLFWwindow* window, int index) {
-    return isInSquare(window,
+bool isOnLetter(int index) {
+    return isInSquare(
         int(screenWidth * (3 + 2 * index) / 30.0) + PADDING,
         int(screenHeight / 2.0 + screenWidth / 15.0) + PADDING,
         int(screenWidth / 15.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 2 * PADDING);
 }
 
-bool isOnSubmit(GLFWwindow* window) {
-    return isInSquare(window,
+bool isOnSubmit() {
+    return isInSquare(
         int(4 * screenWidth / 10.0) + PADDING,
         int(screenHeight / 2.0 + screenWidth * 3 / 15.0) + PADDING * 2,
         int(screenWidth / 5.0) - 2 * PADDING,
         int(screenWidth / 15.0) - 4 * PADDING);
 }
 
-bool isOnMediumNumber(GLFWwindow* window) {
+bool isOnMediumNumber() {
     return isInSquare(
-        window,
         screenWidth * 27 / 60.0 + PADDING,
         screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
         screenWidth / 10.0 - 2 * PADDING,
@@ -156,9 +157,8 @@ bool isOnMediumNumber(GLFWwindow* window) {
     );
 }
 
-bool isOnLargeNumber(GLFWwindow* window) {
+bool isOnLargeNumber() {
     return isInSquare(
-        window,
         screenWidth * 23 / 30.0 + PADDING,
         screenHeight / 2.0 + screenWidth / 15.0 + PADDING,
         screenWidth * 2 / 15.0 - 2 * PADDING,
@@ -166,9 +166,8 @@ bool isOnLargeNumber(GLFWwindow* window) {
     );
 }
 
-bool isOnOperation(GLFWwindow* window, int index) {
+bool isOnOperation(int index) {
     return isInSquare(
-        window,
         screenWidth * (3 + 2 * index) / 30.0 + PADDING,
         screenHeight / 2.0 + PADDING,
         screenWidth / 15.0 - 2 * PADDING,
@@ -176,9 +175,8 @@ bool isOnOperation(GLFWwindow* window, int index) {
     );
 }
 
-bool isOnBracket(GLFWwindow* window, bool closed) {
+bool isOnBracket(bool closed) {
     return isInSquare(
-        window,
         screenWidth * (23 + 2 * closed) / 30.0 + PADDING,
         screenHeight / 2.0 + PADDING,
         screenWidth / 15.0 - 2 * PADDING,
@@ -186,10 +184,10 @@ bool isOnBracket(GLFWwindow* window, bool closed) {
     );
 }
 
-bool isOnSymbol(GLFWwindow* window, int index) {
-    return (index < 4 && isOnLetter(window, index)) ||
-        (index == 4 && isOnMediumNumber(window)) ||
-        (index == 5 && isOnLargeNumber(window)) ||
-        (index > 5 && index < 10 && isOnOperation(window, index - 6)) ||
-        (index >= 10 && isOnBracket(window, index == 11));
+bool isOnSymbol(int index) {
+    return (index < 4 && isOnLetter(index)) ||
+        (index == 4 && isOnMediumNumber()) ||
+        (index == 5 && isOnLargeNumber()) ||
+        (index > 5 && index < 10 && isOnOperation(index - 6)) ||
+        (index >= 10 && isOnBracket(index == 11));
 }

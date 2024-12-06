@@ -42,23 +42,23 @@ extern unsigned brackets[2];
 float convertX(int pixels);
 float convertY(int pixels);
 
-bool isInSquare(GLFWwindow* window, float left, float up, float width, float height);
+bool isInSquare(float left, float up, float width, float height);
 void drawWithLens(int start, unsigned texture);
 void drawUniversalElements();
 
 //TODO: remove window
-bool isOnStop(GLFWwindow* window);
-bool isOnBackspace(GLFWwindow* window);
-bool isOnClear(GLFWwindow* window);
-bool isOnSubmit(GLFWwindow* window);
+bool isOnStop();
+bool isOnBackspace();
+bool isOnClear();
+bool isOnSubmit();
 
-bool isOnLetter(GLFWwindow* window, int index);
+bool isOnLetter(int index);
 
-bool isOnMediumNumber(GLFWwindow* window);
-bool isOnLargeNumber(GLFWwindow* window);
-bool isOnOperation(GLFWwindow* window, int index);
-bool isOnBracket(GLFWwindow* window, bool closed);
-bool isOnSymbol(GLFWwindow* window, int index);
+bool isOnMediumNumber();
+bool isOnLargeNumber();
+bool isOnOperation(int index);
+bool isOnBracket(bool closed);
+bool isOnSymbol(int index);
 
 extern GLFWwindow* window;
 

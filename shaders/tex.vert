@@ -8,7 +8,6 @@ uniform float uX;
 uniform float uY;
 uniform float kX;
 
-
 void main()
 {
 	if (kX == 0) {

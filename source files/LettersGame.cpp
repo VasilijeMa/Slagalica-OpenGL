@@ -237,7 +237,7 @@ namespace LettersGame {
     }
 
     void actionSubmit() {
-        if (isInvalidWordPresent) {
+        if (isInvalidWordPresent()) {
             isCurrentWordInvalid = true;
             return;
         }
@@ -299,14 +299,14 @@ namespace LettersGame {
         int onLetter = -1;
         if (generatedLetters.size() == 12) {
             if (chosenLetters.size() > 0) {
-                onClear = isOnClear(window);
-                if (!onClear) onBackspace = isOnBackspace(window);
-                if (!onBackspace && !onClear) onSubmit = !isCurrentWordInvalid && loadDictThreadEnded && isOnSubmit(window);
+                onClear = isOnClear();
+                if (!onClear) onBackspace = isOnBackspace();
+                if (!onBackspace && !onClear) onSubmit = !isCurrentWordInvalid && loadDictThreadEnded && isOnSubmit();
                 onButton = onClear || onBackspace || onSubmit;
             }
             if (!onButton) {
                 for (int i = 0; i < 12; i++) {
-                    if (isOnLetter(window, i)) {
+                    if (isOnLetter(i)) {
                         onButton = true;
                         onLetter = i;
                         break;
@@ -315,7 +315,7 @@ namespace LettersGame {
             }
         }
         else {
-            onStop = isOnStop(window);
+            onStop = isOnStop();
             onButton = onStop;
         }
         if (onButton) {
@@ -387,7 +387,7 @@ namespace LettersGame {
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
 
             if (generatedLetters.size() == 12) {
-                if (chosenLetters.size() > 0 && isOnClear(window)) {
+                if (chosenLetters.size() > 0 && isOnClear()) {
                     if (action == GLFW_PRESS) {
                         clearPressed = true;
                     }
@@ -395,7 +395,7 @@ namespace LettersGame {
                         actionClear();
                     }
                 }
-                else if (chosenLetters.size() > 0 && isOnBackspace(window)) {
+                else if (chosenLetters.size() > 0 && isOnBackspace()) {
                     if (action == GLFW_PRESS) {
                         backspacePressed = true;
                     }
@@ -403,7 +403,7 @@ namespace LettersGame {
                         actionBackspace();
                     }
                 }
-                else if (!isCurrentWordInvalid && chosenLetters.size() > 0 && loadDictThreadEnded && isOnSubmit(window)) {
+                else if (!isCurrentWordInvalid && chosenLetters.size() > 0 && loadDictThreadEnded && isOnSubmit()) {
                     if (action == GLFW_PRESS) {
                         submitPressed = true;
                     }
@@ -413,7 +413,7 @@ namespace LettersGame {
                 }
                 else {
                     for (int i = 0; i < 12; i++) {
-                        if (isOnLetter(window, i)) {
+                        if (isOnLetter(i)) {
                             if (isSelected(i)) break;
                             if (action == GLFW_PRESS) {
                                 letterPressed = i;
@@ -427,7 +427,7 @@ namespace LettersGame {
                 }
             }
             else {
-                if (isOnStop(window)) {
+                if (isOnStop()) {
                     if (action == GLFW_PRESS) {
                         stopPressed = true;
                     }
@@ -642,5 +642,7 @@ void playLettersGame(int roundTime) {
     while (!glfwWindowShouldClose(window))
     {
         run(roundTime);
+        if (endTime > 0.0 && glfwGetTime() - endTime > solutions.size() * 2) break;
     }
+    std::cout << solutions.size() << std::endl;
 }
