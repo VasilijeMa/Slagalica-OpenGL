@@ -645,6 +645,6 @@ void playLettersGame(int roundTime) {
     while (!glfwWindowShouldClose(window))
     {
         run(roundTime);
-        if (endTime > 0.0 && glfwGetTime() - endTime > solutions.size() * 2) break;
+        if (endTime > 0.0 && glfwGetTime() - endTime >= solutions.size() * 2) break;
     }
 }
