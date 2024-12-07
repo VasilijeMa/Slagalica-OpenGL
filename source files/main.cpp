@@ -17,7 +17,7 @@ void formVertices();
 
 int main(void)
 {
-    int roundTime = 12;
+    int roundTime = 120;
 
     if (!glfwInit())
     {
